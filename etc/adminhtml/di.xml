@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Yireo TaxRatesManager2 for Magento 2
+ *
+ * @package     Yireo_TaxRatesManager 2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Yireo\TaxRatesManager2\Api\LoggerInterface" type="Yireo\TaxRatesManager2\Logger\Messages"/>
+</config>

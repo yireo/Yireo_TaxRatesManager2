@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Yireo TaxRatesManager2 for Magento 2
+ *
+ * @package     Yireo_TaxRatesManager 2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="controller_action_predispatch">
+		<observer instance="Yireo\TaxRatesManager2\Observer\Backend\Controller\ActionPredispatch" name="yireo_taxratesmanager2_observer_backend_controller_actionpredispatch_controller_action_predispatch"/>
+	</event>
+</config>

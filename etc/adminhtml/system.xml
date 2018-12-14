@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Yireo TaxRatesManager2 for Magento 2
+ *
+ * @package     Yireo_TaxRatesManager 2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="yireo" sortOrder="999" translate="label">
+            <label>Yireo</label>
+        </tab>
+        <section id="taxratesmanager" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>TaxRaesManager</label>
+            <tab>yireo</tab>
+            <resource>Yireo_TaxRatesManager2::config_yireo_taxratesmanager2</resource>
+            <group id="settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Settings</label>
+                <field id="fix_automatically_in_backend" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
+                    <label>Fix Automatically via Backend</label>
+                    <comment><![CDATA[Fix all suggestions automatically in Magento Admin Panel]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="fix_automatically_in_cron" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
+                    <label>Fix Automatically via Cron</label>
+                    <comment><![CDATA[Fix all suggestions automatically via cron]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="send_email" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
+                    <label>Send Email</label>
+                    <comment><![CDATA[Send email via cron with suggestions or fixes]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="email" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="text">
+                    <label>Email address</label>
+                    <comment><![CDATA[Email to send output of cron to, if different from default Store Owner]]></comment>
+                </field>
+                <field id="feed_source" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
+                    <label>Feed source</label>
+                    <comment><![CDATA[Source to load tax rates from. tax_rates_eu.csv by default.]]></comment>
+                    <source_model>Yireo\TaxRatesManager2\Model\System\Config\Source\Feed</source_model>
+                </field>
+                <field id="alternative_feed_source" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="text">
+                    <label>Alternative feed source</label>
+                    <comment><![CDATA[A full URL to an alternative CSV feed]]></comment>
+                </field>
+                <field id="update_name" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
+                    <label>Update Tax Rate name</label>
+                    <comment><![CDATA[When updating a tax rate, also update its name]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cache" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
+                    <label>Enable cache</label>
+                    <comment><![CDATA[Allow for caching rates fetched online]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

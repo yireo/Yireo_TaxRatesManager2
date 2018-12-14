@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Yireo TaxRatesManager for Magento 
+ *
+ * @package     Yireo_TaxRatesManager
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <taxratesmanager>
+            <settings>
+                <fix_automatically_in_backend>0</fix_automatically_in_backend>
+                <fix_automatically_in_cron>0</fix_automatically_in_cron>
+                <send_email>0</send_email>
+                <email/>
+                <feed_source>tax_rates_eu.csv</feed_source>
+                <alternative_feed_source/>
+                <update_name>0</update_name>
+                <cache>1</cache>
+            </settings>
+        </taxratesmanager>
+    </default>
+</config>
