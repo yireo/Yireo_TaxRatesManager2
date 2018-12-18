@@ -31,6 +31,7 @@ class StoredRates
      * @var Config
      */
     private $config;
+
     /**
      * @var TaxRateRepositoryInterface
      */
@@ -40,6 +41,7 @@ class StoredRates
      * @var SearchCriteriaBuilderFactory
      */
     private $searchCriteriaBuilderFactory;
+
     /**
      * @var TaxRateInterfaceFactory
      */

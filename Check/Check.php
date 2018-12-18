@@ -69,7 +69,7 @@ class Check
         OnlineRatesProvider $onlineRatesProvider,
         StoredRatesProvider $storedRatesProvider,
         Comparer $comparer,
-        int $verbosity = 0
+        int $verbosity = null
     ) {
         $this->config = $config;
         $this->logger = $logger;

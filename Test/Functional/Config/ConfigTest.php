@@ -10,16 +10,18 @@
 
 declare(strict_types=1);
 
-use Yireo_TaxRatesManager_Config_Config as Target;
-use Yireo_TaxRatesManager_Test_Utils_AbstractTestCase as TestCase;
+namespace Yireo\TaxRatesManager2\Test\Functional\Config;
+
+use Magento\Framework\App\Config\Storage\WriterInterface;
+use Yireo\TaxRatesManager2\Config\Config as Target;
+use Yireo\TaxRatesManager2\Test\Utils\AbstractTestCase;
 
 /**
- * Class Yireo_TaxRatesManager_Test_Functional_Config_ConfigTest
+ * Class ConfigTest
  */
-class Yireo_TaxRatesManager_Test_Functional_Config_ConfigTest extends TestCase
+class ConfigTest extends AbstractTestCase
 {
     /**
-     * @throws Mage_Core_Model_Store_Exception
      */
     public function testFixAutomatically()
     {
@@ -31,7 +33,6 @@ class Yireo_TaxRatesManager_Test_Functional_Config_ConfigTest extends TestCase
     }
 
     /**
-     * @throws Mage_Core_Model_Store_Exception
      */
     public function testSendEmail()
     {
@@ -43,7 +44,6 @@ class Yireo_TaxRatesManager_Test_Functional_Config_ConfigTest extends TestCase
     }
 
     /**
-     * @throws Mage_Core_Model_Store_Exception
      */
     public function testEmail()
     {
@@ -52,7 +52,6 @@ class Yireo_TaxRatesManager_Test_Functional_Config_ConfigTest extends TestCase
     }
 
     /**
-     * @throws Mage_Core_Model_Store_Exception
      */
     public function testGetFeedUrl()
     {
@@ -64,9 +63,6 @@ class Yireo_TaxRatesManager_Test_Functional_Config_ConfigTest extends TestCase
         $this->assertSame(Target::PREFIX.'foobar', $this->getTarget()->getFeedUrl());
     }
 
-    /**
-     * @throws Mage_Core_Model_Store_Exception
-     */
     public function testUpdateNameFromExistingItems()
     {
         $this->setConfigValue('update_name', 1);
@@ -77,10 +73,22 @@ class Yireo_TaxRatesManager_Test_Functional_Config_ConfigTest extends TestCase
     }
 
     /**
-     * @return Yireo_TaxRatesManager_Config_Config
+     * @return Target
      */
     private function getTarget(): Target
     {
-        return $this->getFactory()->get(Yireo_TaxRatesManager_Config_Config::class);
+        return $this->getObjectManager()->get(Target::class);
+    }
+
+    /**
+     * @param string $path
+     * @param $value
+     * @param string $pathPrefix
+     */
+    private function setConfigValue(string $path, $value, string $pathPrefix = 'taxratesmanager2/settings/')
+    {
+        $path = $pathPrefix . $path;
+        $configWriter = $this->getObjectManager()->get(WriterInterface::class);
+        $configWriter->save($path, $value);
     }
 }

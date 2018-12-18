@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Yireo\TaxRatesManager2\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Yireo\TaxRatesManager2\Util\Commandline;
+use Yireo\TaxRatesManager2\Util\CommandLine;
 
 /**
  * Class Config
@@ -28,18 +28,18 @@ class Config
     private $scopeConfig;
 
     /**
-     * @var Commandline
+     * @var CommandLine
      */
     private $cli;
 
     /**
      * Config constructor.
      * @param ScopeConfigInterface $scopeConfig
-     * @param Commandline $cli
+     * @param CommandLine $cli
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        Commandline $cli
+        CommandLine $cli
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->cli = $cli;

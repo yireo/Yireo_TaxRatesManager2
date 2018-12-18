@@ -12,21 +12,29 @@ declare(strict_types=1);
 
 namespace Yireo\TaxRatesManager2\Test\Functional\Check;
 
-use PHPUnit\Framework\TestCase;
+use Yireo\TaxRatesManager2\Provider\StoredRates;
+use Yireo\TaxRatesManager2\Test\Utils\AbstractTestCase;
 use Yireo\TaxRatesManager2\Check\Check;
 
 /**
  * Class CheckTest
  */
-class CheckTest extends TestCase
+class CheckTest extends AbstractTestCase
 {
     /**
      *
      */
-    public function testCurrentSituation()
+    public function testWhetherCheckResultsInNewRates()
     {
+        $currentRates = $this->getStoredRatesProvider()->getRates();
+        $currentRatesCount = count($currentRates);
+
         $check = $this->getCheck();
-        $this->assertTrue(true);
+        $check->execute();
+
+        $newRates = $this->getStoredRatesProvider()->getRates();
+        $newRatesCount = count($newRates);
+        $this->assertGreaterThan($newRatesCount, $currentRatesCount);
     }
 
     /**
@@ -34,5 +42,14 @@ class CheckTest extends TestCase
      */
     private function getCheck(): Check
     {
+        return $this->getObjectManager()->get(Check::class);
+    }
+
+    /**
+     * @return StoredRates
+     */
+    private function getStoredRatesProvider(): StoredRates
+    {
+        return $this->getObjectManager()->get(StoredRates::class);
     }
 }
