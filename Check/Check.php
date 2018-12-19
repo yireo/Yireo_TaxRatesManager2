@@ -12,12 +12,15 @@ declare(strict_types=1);
 
 namespace Yireo\TaxRatesManager2\Check;
 
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Yireo\TaxRatesManager2\Config\Config;
 use Yireo\TaxRatesManager2\Util\Comparer;
 use Yireo\TaxRatesManager2\Api\LoggerInterface as Logger;
 use Yireo\TaxRatesManager2\Provider\OnlineRates as OnlineRatesProvider;
 use Yireo\TaxRatesManager2\Provider\StoredRates as StoredRatesProvider;
 use Yireo\TaxRatesManager2\Rate\Rate;
+use Magento\Customer\Model\Vat as VatModel;
 
 /**
  * Class Check
@@ -53,6 +56,10 @@ class Check
      * @var int
      */
     private $verbosity;
+    /**
+     * @var VatModel
+     */
+    private $vatModel;
 
     /**
      * Yireo_TaxRatesManager_Provider constructor.
@@ -61,6 +68,7 @@ class Check
      * @param OnlineRatesProvider $onlineRatesProvider
      * @param StoredRatesProvider $storedRatesProvider
      * @param Comparer $comparer
+     * @param VatModel $vatModel
      * @param int $verbosity
      */
     public function __construct(
@@ -69,6 +77,7 @@ class Check
         OnlineRatesProvider $onlineRatesProvider,
         StoredRatesProvider $storedRatesProvider,
         Comparer $comparer,
+        VatModel $vatModel,
         int $verbosity = null
     ) {
         $this->config = $config;
@@ -77,11 +86,14 @@ class Check
         $this->storedRatesProvider = $storedRatesProvider;
         $this->comparer = $comparer;
         $this->verbosity = $verbosity;
+        $this->vatModel = $vatModel;
     }
 
     /**
      * Main function
      * @return bool
+     * @throws InputException
+     * @throws NoSuchEntityException
      */
     public function execute(): bool
     {
@@ -135,6 +147,8 @@ class Check
     /**
      * @param Rate[] $storedRates
      * @param Rate[] $onlineRates
+     * @throws InputException
+     * @throws NoSuchEntityException
      */
     private function checkMatches(array $storedRates, array $onlineRates)
     {
@@ -151,9 +165,16 @@ class Check
      * @param Rate $storedRate
      * @param Rate[] $onlineRates
      * @return bool
+     * @throws InputException
+     * @throws NoSuchEntityException
      */
     private function checkStoredRate(Rate $storedRate, array $onlineRates): bool
     {
+        // @todo: If US rates are supported as well, this needs to be refactored
+        if (!$this->isCountryInEu($storedRate->getCountryId())) {
+            return true;
+        }
+
         $suggestRate = 0;
         foreach ($onlineRates as $onlineRate) {
             if ($onlineRate->getCountryId() !== $storedRate->getCountryId()) {
@@ -267,5 +288,14 @@ class Check
         }
 
         return true;
+    }
+
+    /**
+     * @param string $countryId
+     * @return bool
+     */
+    public function isCountryInEu(string $countryId): bool
+    {
+        return (bool)$this->vatModel->isCountryInEU($countryId);
     }
 }

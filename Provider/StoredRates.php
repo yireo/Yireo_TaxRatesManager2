@@ -79,13 +79,13 @@ class StoredRates
         $searchCriteria = $searchCriteriaBuilder->create();
         $searchResult = $this->taxRateRepository->getList($searchCriteria);
 
-        /** @var Rate $item */
+        /** @var TaxRateInterface $item */
         foreach ($searchResult->getItems() as $item) {
             $rates[] = new Rate(
                 (int)$item->getId(),
                 (string)$item->getCode(),
-                (string)$item->getCountryId(),
-                (float)$item->getPercentage()
+                (string)$item->getTaxCountryId(),
+                (float)$item->getRate()
             );
         }
 
@@ -107,6 +107,7 @@ class StoredRates
 
         $model->setTaxCountryId($rate->getCountryId());
         $model->setRate($rate->getPercentage());
+        $model->setTaxPostcode('*');
         $this->taxRateRepository->save($model);
     }
 
@@ -121,6 +122,6 @@ class StoredRates
             return $this->taxRateRepository->get($id);
         }
 
-        return $this->taxRateRepository->create();
+        return $this->taxRateFactory->create();
     }
 }

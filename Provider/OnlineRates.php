@@ -134,7 +134,8 @@ class OnlineRates
      */
     private function loadFromOnline(): array
     {
-        $contents = $this->client->get($this->config->getFeedUrl());
+        $response = $this->client->get($this->config->getFeedUrl());
+        $contents = (string) $response->getBody();
         $rows = array_map('str_getcsv', explode("\n", $contents));
         $headerRow = array_shift($rows);
         $this->validateHeaderRow($headerRow);

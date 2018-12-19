@@ -54,8 +54,13 @@ class ActionPredispatch implements ObserverInterface
     public function execute(
         Observer $observer
     ) {
+        $moduleName = $this->request->getModuleName();
+        if ($moduleName !== 'tax') {
+            return $this;
+        }
+
         $controllerName = $this->request->getControllerName();
-        if ($controllerName !== 'tax_rate') {
+        if ($controllerName !== 'rate') {
             return $this;
         }
 

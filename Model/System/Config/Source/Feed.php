@@ -67,8 +67,8 @@ class Feed implements ArrayInterface
      */
     private function getSources(): array
     {
-        $response = $this->client->get(Config::PREFIX.'/feeds.json');
-        $contents = $response->getBody();
+        $response = $this->client->get(Config::PREFIX . '/feeds.json');
+        $contents = (string)$response->getBody();
         $data = $this->jsonSerializer->unserialize($contents);
 
         return $data['feeds'];
