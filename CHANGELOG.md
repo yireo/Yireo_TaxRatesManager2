@@ -1,3 +1,6 @@
+# 1.0.1 (December 2019)
+- Fix typo in settings
+
 # 1.0.0 (December 2019)
 - Stable release
 
