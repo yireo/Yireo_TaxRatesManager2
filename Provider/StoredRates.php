@@ -67,6 +67,16 @@ class StoredRates
     }
 
     /**
+     * @param int $id
+     * @return TaxRateInterface
+     * @throws NoSuchEntityException
+     */
+    public function getRateById(int $id): TaxRateInterface
+    {
+        return $this->taxRateRepository->get($id);
+    }
+
+    /**
      * @return Rate[]
      * @throws InputException
      */
@@ -93,6 +103,8 @@ class StoredRates
     }
 
     /**
+     * Save a new or existing rate
+     *
      * @param Rate $rate
      * @throws InputException
      * @throws NoSuchEntityException
@@ -109,6 +121,19 @@ class StoredRates
         $model->setRate($rate->getPercentage());
         $model->setTaxPostcode('*');
         $this->taxRateRepository->save($model);
+    }
+
+    /**
+     * Delete a rate
+     *
+     * @param Rate $rate
+     * @throws InputException
+     * @throws NoSuchEntityException
+     */
+    public function deleteRate(Rate $rate)
+    {
+        $model = $this->getTaxRateModelById($rate->getId());
+        $this->taxRateRepository->delete($model);
     }
 
     /**

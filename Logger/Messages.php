@@ -56,7 +56,8 @@ class Messages implements LoggerInterface
      */
     public function warning(string $msg)
     {
-        $this->messageManager->addWarningMessage($msg);
+        //$this->messageManager->addWarningMessage($msg);
+        $this->messageManager->addComplexWarningMessage('htmlWarning', ['msg', $msg]);
     }
 
     /**

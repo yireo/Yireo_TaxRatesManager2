@@ -56,6 +56,12 @@ class Check
      * @var int
      */
     private $verbosity;
+
+    /**
+     * @var bool
+     */
+    private $fixAutomatically = false;
+
     /**
      * @var VatModel
      */
@@ -91,6 +97,7 @@ class Check
 
     /**
      * Main function
+     *
      * @return bool
      * @throws InputException
      * @throws NoSuchEntityException
@@ -137,11 +144,23 @@ class Check
     }
 
     /**
+     * Set the verbosity flag manually
+     *
      * @param int $verbosity
      */
     public function setVerbosity(int $verbosity)
     {
         $this->verbosity = $verbosity;
+    }
+
+    /**
+     * Set the the fix-automatically flag manually
+     *
+     * @param int $fixAutomaticaly
+     */
+    public function setFixAutomatically(int $fixAutomaticaly)
+    {
+        $this->fixAutomaticaly = $fixAutomaticaly;
     }
 
     /**
@@ -211,7 +230,7 @@ class Check
             $storedRate->getPercentage()
         );
 
-        if ($this->config->fixAutomatically()) {
+        if ($this->fixAutomatically || $this->config->fixAutomatically()) {
             $storedRate->setPercentage($suggestRate);
             $this->storedRatesProvider->saveRate($storedRate);
             $msg = sprintf(
@@ -230,6 +249,8 @@ class Check
             $msg .= ' Perhaps it should be removed or empty?';
         }
 
+        $msg .= ' (<a href="">Fix this now</a>)';
+
         $this->logger->warning($msg);
         return false;
     }
@@ -238,6 +259,8 @@ class Check
      * @param Rate $onlineRate
      * @param Rate[] $storedRates
      * @return bool
+     * @throws InputException
+     * @throws NoSuchEntityException
      */
     private function checkOnlineRate(Rate $onlineRate, array $storedRates): bool
     {
@@ -276,7 +299,7 @@ class Check
             $onlineRate->getCountryId()
         ));
 
-        if ($this->config->fixAutomatically()) {
+        if ($this->fixAutomatically || $this->config->fixAutomatically()) {
             $this->storedRatesProvider->saveRate($onlineRate);
             $msg = sprintf(
                 'Automatically saved a new rate %s: %s',
@@ -291,6 +314,8 @@ class Check
     }
 
     /**
+     * Check whether a specific country is in the EU or not
+     *
      * @param string $countryId
      * @return bool
      */
