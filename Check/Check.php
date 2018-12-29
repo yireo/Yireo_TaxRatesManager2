@@ -14,6 +14,7 @@ namespace Yireo\TaxRatesManager2\Check;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface;
 use Yireo\TaxRatesManager2\Config\Config;
 use Yireo\TaxRatesManager2\Util\Comparer;
 use Yireo\TaxRatesManager2\Api\LoggerInterface as Logger;
@@ -68,6 +69,11 @@ class Check
     private $vatModel;
 
     /**
+     * @var UrlInterface
+     */
+    private $url;
+
+    /**
      * Yireo_TaxRatesManager_Provider constructor.
      * @param Config $config
      * @param Logger $logger
@@ -75,6 +81,7 @@ class Check
      * @param StoredRatesProvider $storedRatesProvider
      * @param Comparer $comparer
      * @param VatModel $vatModel
+     * @param UrlInterface $url
      * @param int $verbosity
      */
     public function __construct(
@@ -84,6 +91,7 @@ class Check
         StoredRatesProvider $storedRatesProvider,
         Comparer $comparer,
         VatModel $vatModel,
+        UrlInterface $url,
         int $verbosity = null
     ) {
         $this->config = $config;
@@ -93,6 +101,7 @@ class Check
         $this->comparer = $comparer;
         $this->verbosity = $verbosity;
         $this->vatModel = $vatModel;
+        $this->url = $url;
     }
 
     /**
@@ -156,11 +165,11 @@ class Check
     /**
      * Set the the fix-automatically flag manually
      *
-     * @param int $fixAutomaticaly
+     * @param bool $fixAutomatically
      */
-    public function setFixAutomatically(int $fixAutomaticaly)
+    public function setFixAutomatically(bool $fixAutomatically)
     {
-        $this->fixAutomaticaly = $fixAutomaticaly;
+        $this->fixAutomatically = $fixAutomatically;
     }
 
     /**
@@ -187,7 +196,7 @@ class Check
      * @throws InputException
      * @throws NoSuchEntityException
      */
-    private function checkStoredRate(Rate $storedRate, array $onlineRates): bool
+    public function checkStoredRate(Rate $storedRate, array $onlineRates): bool
     {
         // @todo: If US rates are supported as well, this needs to be refactored
         if (!$this->isCountryInEu($storedRate->getCountryId())) {
@@ -249,10 +258,19 @@ class Check
             $msg .= ' Perhaps it should be removed or empty?';
         }
 
-        $msg .= ' (<a href="">Fix this now</a>)';
+        $msg .= ' (<a href="' . $this->getFixUrl($storedRate) . '">Fix this now</a>)';
 
         $this->logger->warning($msg);
         return false;
+    }
+
+    /**
+     * @param Rate $rate
+     * @return string
+     */
+    private function getFixUrl(Rate $rate): string
+    {
+        return $this->url->getUrl('taxratesmanager/index/fix', ['id' => $rate->getId()]);
     }
 
     /**
@@ -292,12 +310,15 @@ class Check
             return false;
         }
 
-        $this->logger->warning(sprintf(
+        $msg = sprintf(
             'A new rate "%s" (%s%%) is not configured in your store yet [%s]',
             $onlineRate->getCode(),
             $onlineRate->getPercentage(),
             $onlineRate->getCountryId()
-        ));
+        );
+
+        $msg .= ' (<a href="' . $this->getAddUrl($onlineRate) . '">Add</a>)';
+        $this->logger->warning($msg);
 
         if ($this->fixAutomatically || $this->config->fixAutomatically()) {
             $this->storedRatesProvider->saveRate($onlineRate);
@@ -311,6 +332,22 @@ class Check
         }
 
         return true;
+    }
+
+    /**
+     * Get the URL for adding a new rate
+     *
+     * @param Rate $rate
+     * @return string
+     */
+    private function getAddUrl(Rate $rate): string
+    {
+        $data = [
+            'country' => $rate->getCountryId(),
+            'percentage' => $rate->getPercentage(),
+        ];
+
+        return $this->url->getUrl('taxratesmanager/index/add', $data);
     }
 
     /**

@@ -15,6 +15,6 @@ class PreferenceTest extends TestCase
     public function testIfLoggerInterfaceMapsToPreference()
     {
         $logger = $this->getObjectManager()->get(LoggerInterface::class);
-        $this->assertInstanceOf(Console::class,$logger);
+        $this->assertInstanceOf(Console::class, $logger);
     }
 }

@@ -68,12 +68,18 @@ class StoredRates
 
     /**
      * @param int $id
-     * @return TaxRateInterface
+     * @return Rate
      * @throws NoSuchEntityException
      */
-    public function getRateById(int $id): TaxRateInterface
+    public function getRateById(int $id): Rate
     {
-        return $this->taxRateRepository->get($id);
+        $item = $this->taxRateRepository->get($id);
+        return new Rate(
+            (int)$item->getId(),
+            (string)$item->getCode(),
+            (string)$item->getTaxCountryId(),
+            (float)$item->getRate()
+        );
     }
 
     /**

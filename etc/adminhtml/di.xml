@@ -12,11 +12,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Yireo\TaxRatesManager2\Api\LoggerInterface" type="Yireo\TaxRatesManager2\Logger\Messages"/>
 
+    <type name="Magento\Tax\Block\Adminhtml\Rate\Toolbar\Add">
+        <plugin name="add_clean_button" type="Yireo\TaxRatesManager2\Plugin\Rate\Toolbar\AddPlugin" disabled="false" sortOrder="0" />
+    </type>
+
     <type name="Magento\Framework\View\Element\Message\MessageConfigurationsPool">
         <arguments>
             <argument name="configurationsMap" xsi:type="array">
                 <item name="htmlWarning" xsi:type="array">
-                    <item name="renderer" xsi:type="const">Magento\Framework\View\Element\Message\Renderer\BlockRenderer::CODE</item>
+                    <item name="renderer" xsi:type="const">\Magento\Framework\View\Element\Message\Renderer\BlockRenderer::CODE</item>
                     <item name="data" xsi:type="array">
                         <item name="template" xsi:type="string">Yireo_TaxRatesManager2::messages/warning.phtml</item>
                     </item>
