@@ -1,3 +1,6 @@
+# 1.2.1 (January 2019)
+- Add website name to email subject
+
 # 1.2.0 (December 2019)
 - Add Fix link to notices
 - Add "Clean All Rates" button
