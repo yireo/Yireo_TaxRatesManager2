@@ -17,6 +17,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Framework\Translate\Inline\StateInterface;
 use Psr\Log\LoggerInterface as GenericLoggerInterface;
 use Yireo\TaxRatesManager2\Api\LoggerInterface;
 use Yireo\TaxRatesManager2\Check\Check;
@@ -57,6 +58,10 @@ class CheckRunner
      * @var GenericLoggerInterface
      */
     private $genericLogger;
+    /**
+     * @var         \Magento\Framework\Translate\Inline\StateInterface
+     */
+    private $inlineTranslation;
 
     /**
      * CheckRunner constructor.
@@ -66,6 +71,7 @@ class CheckRunner
      * @param TransportBuilder $transportBuilder
      * @param ScopeConfigInterface $scopeConfig
      * @param GenericLoggerInterface $genericLogger
+     * @param StateInterface $inlineTranslation
      */
     public function __construct(
         Config $config,
@@ -73,7 +79,8 @@ class CheckRunner
         Check $check,
         TransportBuilder $transportBuilder,
         ScopeConfigInterface $scopeConfig,
-        GenericLoggerInterface $genericLogger
+        GenericLoggerInterface $genericLogger,
+        StateInterface $inlineTranslation
     ) {
         $this->config = $config;
         $this->logger = $logger;
@@ -81,6 +88,7 @@ class CheckRunner
         $this->transportBuilder = $transportBuilder;
         $this->scopeConfig = $scopeConfig;
         $this->genericLogger = $genericLogger;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
@@ -131,7 +139,9 @@ class CheckRunner
             ->getTransport();
 
         try {
+            $this->inlineTranslation->suspend();
             $transport->sendMessage();
+            $this->inlineTranslation->resume();
         } catch (Exception $e) {
             $this->genericLogger->critical($e->getMessage());
         }
