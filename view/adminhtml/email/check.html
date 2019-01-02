@@ -8,15 +8,14 @@
  * @license     Open Source License 3
  */
 -->
-<!--@subject {{trans "Yireo_TaxRateManager"}} {{storeName}}: {{trans "Found warnings"}} @-->
+<!--@subject {{trans "Yireo TaxRatesManager2 tasks for store"}} {{var store_name}} @-->
 <!--@vars {
 "var output":"Output of check",
 } @-->
 
-{{template config_path="design/email/header_template"}}
+Ran Yireo_TaxRatesManager tasks on store {{var store_name}}<br/>
+Output:<br/>
 
 <pre>
-    {{output}}
+    {{var output}}
 </pre>
-
-{{template config_path="design/email/footer_template"}}

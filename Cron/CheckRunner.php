@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Yireo\TaxRatesManager2\Cron;
 
 use Exception;
+use Magento\Store\Model\Store;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -58,8 +59,9 @@ class CheckRunner
      * @var GenericLoggerInterface
      */
     private $genericLogger;
+
     /**
-     * @var         \Magento\Framework\Translate\Inline\StateInterface
+     * @var StateInterface
      */
     private $inlineTranslation;
 
@@ -128,11 +130,14 @@ class CheckRunner
 
         $templateParams = [];
         $templateParams['output'] = $contents;
-        $templateParams['storeName'] = $this->scopeConfig->getValue('general/store_information/name');
+        $templateParams['store_name'] = $this->scopeConfig->getValue('general/store_information/name');
 
         $transport = $this->transportBuilder
             ->setTemplateIdentifier('yireo_taxratesmanager_check')
-            ->setTemplateOptions(['area' => 'adminhtml'])
+            ->setTemplateOptions([
+                'area' => 'adminhtml',
+                'store' => Store::DEFAULT_STORE_ID,
+                ])
             ->addTo($email, $name)
             ->setTemplateVars($templateParams)
             ->setFrom('general')
