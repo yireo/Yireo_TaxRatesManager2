@@ -67,3 +67,4 @@ class Messages implements LoggerInterface
         $this->messageManager->addErrorMessage($msg);
     }
 }
+
