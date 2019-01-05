@@ -13,8 +13,12 @@ declare(strict_types=1);
 namespace Yireo\TaxRatesManager2\Cron;
 
 use Exception;
+use Magento\Store\Model\Store;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Framework\Translate\Inline\StateInterface;
 use Psr\Log\LoggerInterface as GenericLoggerInterface;
 use Yireo\TaxRatesManager2\Api\LoggerInterface;
 use Yireo\TaxRatesManager2\Check\Check;
@@ -57,6 +61,11 @@ class CheckRunner
     private $genericLogger;
 
     /**
+     * @var StateInterface
+     */
+    private $inlineTranslation;
+
+    /**
      * CheckRunner constructor.
      * @param Config $config
      * @param LoggerInterface $logger
@@ -64,6 +73,7 @@ class CheckRunner
      * @param TransportBuilder $transportBuilder
      * @param ScopeConfigInterface $scopeConfig
      * @param GenericLoggerInterface $genericLogger
+     * @param StateInterface $inlineTranslation
      */
     public function __construct(
         Config $config,
@@ -71,7 +81,8 @@ class CheckRunner
         Check $check,
         TransportBuilder $transportBuilder,
         ScopeConfigInterface $scopeConfig,
-        GenericLoggerInterface $genericLogger
+        GenericLoggerInterface $genericLogger,
+        StateInterface $inlineTranslation
     ) {
         $this->config = $config;
         $this->logger = $logger;
@@ -79,14 +90,18 @@ class CheckRunner
         $this->transportBuilder = $transportBuilder;
         $this->scopeConfig = $scopeConfig;
         $this->genericLogger = $genericLogger;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
      * @return bool
+     * @throws InputException
+     * @throws NoSuchEntityException
      */
     public function execute(): bool
     {
         ob_start();
+
         $this->check->execute();
         $contents = ob_get_clean();
 
@@ -104,6 +119,8 @@ class CheckRunner
     }
 
     /**
+     * Send a mail
+     *
      * @param string $contents
      */
     private function sendMail(string $contents)
@@ -111,18 +128,25 @@ class CheckRunner
         $name = $this->scopeConfig->getValue('trans_email/ident_support/name');
         $email = $this->scopeConfig->getValue('trans_email/ident_support/email');
 
-        $templateParams = ['output' => $contents];
+        $templateParams = [];
+        $templateParams['output'] = $contents;
+        $templateParams['store_name'] = $this->scopeConfig->getValue('general/store_information/name');
 
         $transport = $this->transportBuilder
             ->setTemplateIdentifier('yireo_taxratesmanager_check')
-            ->setTemplateOptions(['area' => 'adminhtml'])
+            ->setTemplateOptions([
+                'area' => 'adminhtml',
+                'store' => Store::DEFAULT_STORE_ID,
+                ])
             ->addTo($email, $name)
             ->setTemplateVars($templateParams)
             ->setFrom('general')
             ->getTransport();
 
         try {
+            $this->inlineTranslation->suspend();
             $transport->sendMessage();
+            $this->inlineTranslation->resume();
         } catch (Exception $e) {
             $this->genericLogger->critical($e->getMessage());
         }

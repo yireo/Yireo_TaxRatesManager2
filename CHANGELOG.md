@@ -1,3 +1,8 @@
+# 1.2.1 (January 2019)
+- Fix issue with mail not being sent via cron
+- Add website name to email subject
+- Increase cron time to every 3 minutes
+
 # 1.2.0 (December 2019)
 - Add Fix link to notices
 - Add "Clean All Rates" button
