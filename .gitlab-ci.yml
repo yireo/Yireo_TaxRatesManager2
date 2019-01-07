@@ -56,8 +56,10 @@ magento-2.2-validation:
   image: yireo/magento2ci:7.1
   stage: fullinstall
   script:
-    - /shared/scripts/install-magento.sh
-    - /shared/scripts/gitlab-ci.sh
+    - mkdir -p /shared
+    - git clone git@gitlab.yireo.com:tools/magento2devbox.git; mv magento2devbox /magento2devbox
+    - /magento2devbox/magento/scripts/install-magento.sh
+    - /magento2devbox/magento/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.2.7"
   services:
