@@ -6,8 +6,7 @@
  * @author      Yireo (https://www.yireo.com/)
  * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
- *
- * phpcs:disable
+ * @codingStandardsIgnoreFile
  */
 
 declare(strict_types=1);
@@ -26,7 +25,7 @@ class Console implements LoggerInterface
      */
     public function info(string $msg)
     {
-        echo "INFO: ".$msg."\n";
+        echo "INFO: " . $msg . "\n";
     }
 
     /**
@@ -34,7 +33,7 @@ class Console implements LoggerInterface
      */
     public function success(string $msg)
     {
-        echo "SUCCESS: ".$msg."\n";
+        echo "SUCCESS: " . $msg . "\n";
     }
 
     /**
@@ -42,7 +41,7 @@ class Console implements LoggerInterface
      */
     public function warning(string $msg)
     {
-        echo "WARNING: ".$msg."\n";
+        echo "WARNING: " . $msg . "\n";
     }
 
     /**
@@ -50,6 +49,6 @@ class Console implements LoggerInterface
      */
     public function error(string $msg)
     {
-        echo "ERROR: ".$msg."\n";
+        echo "ERROR: " . $msg . "\n";
     }
 }

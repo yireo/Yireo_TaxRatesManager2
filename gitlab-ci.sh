@@ -43,4 +43,7 @@ composer create-project --repository=https://repo.magento.com magento/marketplac
 vendor/bin/phpcs --config-set m2-path $WEB_DIR
 vendor/bin/phpcs $WEB_DIR/app/code/${VENDOR}/${MODULE} --standard=MEQP2 --severity=10 --extensions=php,phtml
 
-# @todo: Run PHPUnit Integration Tests
+# Run PHPUnit Integration Tests
+cp /shared/integration-tests/install-config-mysql.php $WEB_DIR/dev/tests/integration/etc
+cp /shared/integration-tests/phpunit.xml $WEB_DIR/dev/tests/integration
+bin/magento dev:tests:run integration
