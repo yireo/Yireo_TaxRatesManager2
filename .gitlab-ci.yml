@@ -42,7 +42,7 @@ magento-eqp2-basic:
 # Magento 2.1 testing
 magento-2.1-validation:
   stage: fullinstall
-  image: yireo/magento2ci:7.1
+  image: yireo/magento2ci:7.0
   script:
     - su www-data -c /shared/scripts/install-magento.sh
     - su www-data -c /shared/scripts/gitlab-ci.sh
