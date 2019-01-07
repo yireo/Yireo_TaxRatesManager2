@@ -21,24 +21,23 @@ mkdir -p app/code/${VENDOR}/
 cd app/code/${VENDOR}/
 ln -s $EXTENSION_DIR ${MODULE}
 
-# Install this extension
+echo "Enabling this extension"
 cd $WEB_DIR
 ./bin/magento module:enable ${VENDOR}_${MODULE}
 ./bin/magento module:status --enabled | grep ${VENDOR}_${MODULE}
 
-# Run PHPUnit tests
+echo "Run PHPUnit unit tests"
 cd $WEB_DIR
 cp app/code/${VENDOR}/${MODULE}/phpunit.yireo-unit.xml dev/tests/unit/phpunit.xml
 vendor/bin/phpunit -c ./dev/tests/unit/phpunit.xml
 
-# Run Yireo ExtensionChecker
+echo "Run Yireo ExtensionChecker"
 composer require yireo/magento2-extensionchecker:dev-master
 ./bin/magento module:enable Yireo_ExtensionChecker
 echo "Checking extension with Yireo_ExtensionChecker"
 ./bin/magento yireo_extensionchecker:scan ${VENDOR}_${MODULE} && exit 1
 echo "Done"
 
-# MEQP2 rules
 echo "Running MEQP2 codesniffer"
 MEQP2_DIR=$WEB_DIR/meqp2
 mkdir $MEQP2_DIR
@@ -47,7 +46,6 @@ composer create-project --repository=https://repo.magento.com magento/marketplac
 vendor/bin/phpcs --config-set m2-path $WEB_DIR
 vendor/bin/phpcs $WEB_DIR/app/code/${VENDOR}/${MODULE} --standard=MEQP2 --severity=10 --extensions=php,phtml
 
-# Run PHPUnit Integration Tests
 echo "Running PHPUnit Integration Tests"
 cd $WEB_DIR
 cp /shared/integration-tests/install-config-mysql.php $WEB_DIR/dev/tests/integration/etc

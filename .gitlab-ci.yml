@@ -68,8 +68,8 @@ magento-2.3-validation:
   image: yireo/magento2ci:7.2
   stage: fullinstall
   script:
-    - /shared/scripts/install-magento.sh
-    - ./gitlab-ci.sh
+    - su www-data -c /shared/scripts/install-magento.sh
+    - su www-data -c ./gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.3"
   services:
@@ -87,7 +87,7 @@ variables:
   MAGENTO_ADD_SAMPLE_DATA: "0"
   MAGENTO_ADD_CRON: "0"
   MAGENTO_REMOVE_3PO: "0"
-  DB_DUMP: ""
+  DB_DUMP: "0"
 
   # MySQL variables, also needed by the MySQL service
   MYSQL_HOST: "mysql"
