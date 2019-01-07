@@ -50,11 +50,6 @@ magento-2.1-validation:
     MAGENTO_VERSION: "2.1.12"
   services:
     - name: mysql:5.7
-  cache:
-    paths:
-      - ~www-data/.composer/
-      - /tmp/vendor
-      - vendor/
 
 # Magento 2.2 testing
 magento-2.2-validation:
@@ -67,11 +62,6 @@ magento-2.2-validation:
     MAGENTO_VERSION: "2.2.7"
   services:
     - name: mysql:5.7
-  cache:
-    paths:
-      - ~www-data/.composer/
-      - /tmp/vendor
-      - vendor/
 
 # Magento 2.3 testing
 magento-2.3-validation:
@@ -84,16 +74,13 @@ magento-2.3-validation:
     MAGENTO_VERSION: "2.3.0"
   services:
     - name: mysql:5.7
-  cache:
-    paths:
-      - ~www-data/.composer/
-      - /tmp/vendor
-      - vendor/
 
 # Global variables
 variables:
-  # Magento Marketplace authentication
+  # Magento Marketplace authentication and other Composer handies
   COMPOSER_AUTH: '{"http-basic":{"repo.magento.com":{"username":"d2eb3c98428210463077e4ca2b806e90","password":"bf5d07ecb44854e94d7f78ef969d9470"}}}'
+  COMPOSER_CACHE_DIR: "/cache"
+  COMPOSER_ALLOW_SUPERUSER: "1"
 
   # Custom webfolder
   WEB_DIR: "/tmp"
@@ -112,3 +99,11 @@ variables:
   MYSQL_DATABASE: "magento2"
   MYSQL_ROOT_PASSWORD: "root"
   MYSQL_SQL_TO_RUN: 'GRANT ALL ON *.* TO "magento2"@"%";'
+
+cache:
+  key: "$CI_JOB_NAME"
+  paths:
+    - /cache
+    - /tmp/vendor
+    - vendor/
+    - .composer/
