@@ -57,7 +57,8 @@ magento-2.2-validation:
   stage: fullinstall
   script:
     - mkdir -p /shared
-    - git clone git@gitlab.yireo.com:tools/magento2devbox.git; mv magento2devbox /magento2devbox
+    - git clone https://gitlab.yireo.com/tools/magento2devbox.git
+    - mv magento2devbox /magento2devbox
     - /magento2devbox/magento/scripts/install-magento.sh
     - /magento2devbox/magento/scripts/gitlab-ci.sh
   variables:
