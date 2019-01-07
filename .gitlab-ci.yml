@@ -59,9 +59,9 @@ magento-2.2-validation:
   stage: fullinstall
   script:
     - git clone https://gitlab.yireo.com/tools/magento2devbox.git
-    - mv magento2devbox /magento2devbox
-    - /magento2devbox/magento/scripts/install-magento.sh
-    - /magento2devbox/magento/scripts/gitlab-ci.sh
+    - mv magento2devbox/magento /shared
+    - /shared/scripts/install-magento.sh
+    - /shared/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.2.7"
   services:
@@ -93,7 +93,6 @@ variables:
   DOCKER_DRIVER: overlay2
 
   # Simple flags to speed up deployment
-  MAGENTO_URL: "http://localhost/"
   MAGENTO_ADD_SAMPLE_DATA: "0"
   MAGENTO_ADD_CRON: "0"
   MAGENTO_REMOVE_3PO: "0"
