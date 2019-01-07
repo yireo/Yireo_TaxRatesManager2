@@ -68,8 +68,8 @@ magento-2.3-validation:
   image: yireo/magento2ci:7.2
   stage: fullinstall
   script:
-    - su www-data -c /shared/scripts/install-magento.sh
-    - su www-data -c /shared/scripts/gitlab-ci.sh
+    - /shared/scripts/install-magento.sh
+    - /shared/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.3.0"
   services:
