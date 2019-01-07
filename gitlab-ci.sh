@@ -27,11 +27,12 @@ cd $WEB_DIR
 ./bin/magento module:status --enabled | grep ${VENDOR}_${MODULE}
 
 # Run PHPUnit tests
-phpunit -c ./app/code/${VENDOR}/${MODULE}/phpunit.yireo-unit.xml
+vendor/bin/phpunit -c ./app/code/${VENDOR}/${MODULE}/phpunit.yireo-unit.xml
 
 # Run Yireo ExtensionChecker
 composer require yireo/magento2-extensionchecker:dev-master
 ./bin/magento module:enable Yireo_ExtensionChecker
+echo "Checking extension with Yireo_ExtensionChecker"
 ./bin/magento yireo_extensionchecker:scan ${VENDOR}_${MODULE}
 
 # MEQP2 rules

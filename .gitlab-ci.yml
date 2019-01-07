@@ -1,25 +1,30 @@
+# PHP 7.0 simple linting
 php-7.0-linting:
   image: php:7.0
   script:
     - sh -c 'if find . -name "*.php" -exec php -l {} 2>&1 \; | grep -v "^No syntax errors detected"; then exit 1; fi'
 
+# PHP 7.1 simple linting
 php-7.1-linting:
   image: php:7.1
   script:
     - sh -c 'if find . -name "*.php" -exec php -l {} 2>&1 \; | grep -v "^No syntax errors detected"; then exit 1; fi'
 
+# PHP 7.2 simple linting
 php-7.2-linting:
   image: php:7.2
   script:
     - sh -c 'if find . -name "*.php" -exec php -l {} 2>&1 \; | grep -v "^No syntax errors detected"; then exit 1; fi'
 
+# PHP 7.2 codesniffing
 php-7.2-phpcs:
   image: yireo/php-testbox:7.2
   script:
     - phpcs --colors --standard=PSR2 --report=full .
     - composer validate
 
-magento-validation:
+# Magento 2.3 testing
+magento-2.3-validation:
   image: yireo/magento2ci:7.2
   script:
     - /shared/scripts/install-magento.sh
@@ -27,17 +32,26 @@ magento-validation:
   variables:
     MAGENTO_VERSION: "2.3.0"
 
+# Definition of services (mainly for Magento-specific tasks)
 services:
   - name: mysql:5.7
     alias: mysql
 
+# Global variables
 variables:
-  WEB_DIR: "/tmp"
+  # Magento Marketplace authentication
   COMPOSER_AUTH: '{"http-basic":{"repo.magento.com":{"username":"d2eb3c98428210463077e4ca2b806e90","password":"bf5d07ecb44854e94d7f78ef969d9470"}}}'
+
+  # Custom webfolder
+  WEB_DIR: "/tmp"
+
+  # Simple flags to speed up deployment
   MAGENTO_ADD_SAMPLE_DATA: "0"
   MAGENTO_ADD_CRON: "0"
   MAGENTO_REMOVE_3PO: "0"
   DB_DUMP: ""
+
+  # MySQL variables, also needed by the MySQL service
   MYSQL_HOST: "mysql"
   MYSQL_USER: "magento2"
   MYSQL_PASSWORD: "magento2"
