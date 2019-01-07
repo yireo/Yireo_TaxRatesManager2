@@ -43,4 +43,4 @@ variables:
   MYSQL_PASSWORD: "magento2"
   MYSQL_DATABASE: "magento2"
   MYSQL_ROOT_PASSWORD: "root"
-  MYSQL_SQL_TO_RUN: 'GRANT ALL ON *.* TO "magento"@"%";'
+  MYSQL_SQL_TO_RUN: 'GRANT ALL ON *.* TO "magento2"@"%";'
