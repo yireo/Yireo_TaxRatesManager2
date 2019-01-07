@@ -21,8 +21,9 @@
     "magento/module-tax": "^100.0",
     "magento/framework": "^101.0|^102.0",
     "guzzlehttp/guzzle": "~6.0",
-    "psr/log": "*",
-    "php": ">=7.0.0"
+    "psr/log": "^1.0",
+    "php": ">=7.0.0",
+    "ext-pcre": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
