@@ -1,60 +1,79 @@
+stages:
+  - basic
+  - fullinstall
+
 # PHP 7.0 simple linting
 php-7.0-linting:
+  stage: basic
   image: php:7.0
   script:
     - sh -c 'if find . -name "*.php" -exec php -l {} 2>&1 \; | grep -v "^No syntax errors detected"; then exit 1; fi'
 
 # PHP 7.1 simple linting
 php-7.1-linting:
+  stage: basic
   image: php:7.1
   script:
     - sh -c 'if find . -name "*.php" -exec php -l {} 2>&1 \; | grep -v "^No syntax errors detected"; then exit 1; fi'
 
 # PHP 7.2 simple linting
 php-7.2-linting:
+  stage: basic
   image: php:7.2
   script:
     - sh -c 'if find . -name "*.php" -exec php -l {} 2>&1 \; | grep -v "^No syntax errors detected"; then exit 1; fi'
 
 # PHP 7.2 codesniffing
 php-7.2-phpcs:
+  stage: basic
   image: yireo/php-testbox:7.2
   script:
     - phpcs --colors --standard=PSR2 --report=full .
     - composer validate
 
+# Magento MEQP2 validation
+magento-eqp2-basic:
+  stage: basic
+  image: yireo/php-testbox:7.1
+  script:
+    - composer create-project --repository=https://repo.magento.com magento/marketplace-eqp /tmp/meqp2
+    - /tmp/meqp2/vendor/bin/phpcs . --standard=MEQP2 --severity=10 --extensions=php,phtml
+
 # Magento 2.1 testing
 magento-2.1-validation:
+  stage: fullinstall
   image: yireo/magento2ci:7.1
   script:
     - /shared/scripts/install-magento.sh
     - ./gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.1.*"
+  services:
+    - name: mysql:5.7
 
 # Magento 2.2 testing
 magento-2.2-validation:
   image: yireo/magento2ci:7.1
+  stage: fullinstall
   script:
     - /shared/scripts/install-magento.sh
     - ./gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.2"
-
+  services:
+    - name: mysql:5.7
 
 # Magento 2.3 testing
 magento-2.3-validation:
   image: yireo/magento2ci:7.2
+  stage: fullinstall
   script:
     - /shared/scripts/install-magento.sh
     - ./gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.3"
-
-# Definition of services (mainly for Magento-specific tasks)
-services:
-  - name: mysql:5.7
-    alias: mysql
+  services:
+    - name: mysql:5.7
 
 # Global variables
 variables:
