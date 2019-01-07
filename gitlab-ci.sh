@@ -27,7 +27,9 @@ cd $WEB_DIR
 ./bin/magento module:status --enabled | grep ${VENDOR}_${MODULE}
 
 # Run PHPUnit tests
-vendor/bin/phpunit -c ./app/code/${VENDOR}/${MODULE}/phpunit.yireo-unit.xml
+cd $WEB_DIR
+cp app/code/${VENDOR}/${MODULE}/phpunit.yireo-unit.xml dev/tests/unit/phpunit.xml
+vendor/bin/phpunit -c ./dev/tests/unit/phpunit.xml
 
 # Run Yireo ExtensionChecker
 composer require yireo/magento2-extensionchecker:dev-master
