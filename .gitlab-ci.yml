@@ -38,6 +38,7 @@ variables:
   MAGENTO_ADD_CRON: "0"
   MAGENTO_REMOVE_3PO: "0"
   DB_DUMP: ""
+  MYSQL_HOST: "mysql"
   MYSQL_USER: "root"
   MYSQL_PASSWORD: "root"
   MYSQL_DATABASE: "magento2"
