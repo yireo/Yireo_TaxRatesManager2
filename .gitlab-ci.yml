@@ -36,6 +36,7 @@ variables:
   COMPOSER_AUTH: '{"http-basic":{"repo.magento.com":{"username":"d2eb3c98428210463077e4ca2b806e90","password":"bf5d07ecb44854e94d7f78ef969d9470"}}}'
   MAGENTO_ADD_SAMPLE_DATA: "0"
   MAGENTO_ADD_CRON: "0"
+  MAGENTO_REMOVE_3PO: "0"
   DB_DUMP: ""
   MYSQL_USER: "magento2"
   MYSQL_PASSWORD: "magento2"
