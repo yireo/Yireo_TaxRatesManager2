@@ -44,8 +44,8 @@ magento-2.1-validation:
   stage: fullinstall
   image: yireo/magento2ci:7.1
   script:
-    - /shared/scripts/install-magento.sh
-    - ./gitlab-ci.sh
+    - su www-data -c /shared/scripts/install-magento.sh
+    - su www-data -c ./gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.1.*"
   services:
@@ -56,8 +56,8 @@ magento-2.2-validation:
   image: yireo/magento2ci:7.1
   stage: fullinstall
   script:
-    - /shared/scripts/install-magento.sh
-    - ./gitlab-ci.sh
+    - su www-data -c /shared/scripts/install-magento.sh
+    - su www-data -c ./gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.2"
   services:
