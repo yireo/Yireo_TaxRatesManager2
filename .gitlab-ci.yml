@@ -61,9 +61,9 @@ magento-2.2-validation:
   variables:
     MAGENTO_VERSION: "2.2"
   services:
-    #- name: mysql:5.7
-    - name: theasci/docker-mysql-tmpfs:latest
-      alias: mysql
+    - name: mysql:5.7
+    #- name: theasci/docker-mysql-tmpfs:latest
+    #  alias: mysql
 
 # Magento 2.3 testing
 magento-2.3-validation:
