@@ -22,10 +22,10 @@ php-7.2-phpcs:
 magento-validation:
   image: yireo/magento2ci:7.2
   script:
-    #- /shared/scripts/install-magento.sh
+    - /shared/scripts/install-magento.sh
     - ./gitlab-ci.sh
   variables:
-    MAGENTO_VERSION: "2.2.7"
+    MAGENTO_VERSION: "2.3.0"
 
 services:
   - name: mysql:5.7
