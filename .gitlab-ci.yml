@@ -44,10 +44,9 @@ magento-2.1-validation:
   stage: fullinstall
   image: yireo/magento2ci:7.0
   script:
-    - git clone https://gitlab.yireo.com/tools/magento2devbox.git
-    - mv magento2devbox /magento2devbox
-    - /magento2devbox/magento/scripts/install-magento.sh
-    - /magento2devbox/magento/scripts/gitlab-ci.sh
+    - git clone https://gitlab.yireo.com/tools/magento2devbox.git; rm -rf /shared; mv magento2devbox/magento /shared
+    - /shared/scripts/install-magento.sh
+    - /shared/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.1.12"
   services:
