@@ -51,6 +51,7 @@ magento-2.1-validation:
     MAGENTO_VERSION: "2.1.12"
     RUN_PHPUNIT_UNIT_TESTS: "0"
     RUN_PHPUNIT_INTEGRATION_TESTS: "0"
+    RUN_YIREO_EXTENSIONCHECKER: "0"
   services:
     - name: mysql:5.7
     - name: redis
