@@ -44,9 +44,9 @@ magento-2.1-validation:
   stage: fullinstall
   image: yireo/magento2ci:7.0
   script:
-    - git clone https://gitlab.yireo.com/tools/magento2devbox.git; rm -rf /shared; mv magento2devbox/magento /shared
-    - /shared/scripts/install-magento.sh
-    - /shared/scripts/gitlab-ci.sh
+    - git clone https://gitlab.yireo.com/tools/magento2devbox.git /tmp/magento2devbox
+    - /tmp/magento2devbox/magento/scripts/install-magento.sh
+    - /tmp/magento2devbox/magento/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.1.12"
     RUN_PHPUNIT_UNIT_TESTS: "0"
@@ -61,9 +61,9 @@ magento-2.2-validation:
   image: yireo/magento2ci:7.1
   stage: fullinstall
   script:
-    - git clone https://gitlab.yireo.com/tools/magento2devbox.git; rm -rf /shared; mv magento2devbox/magento /shared
-    - /shared/scripts/install-magento.sh
-    - /shared/scripts/gitlab-ci.sh
+    - git clone https://gitlab.yireo.com/tools/magento2devbox.git /tmp/magento2devbox
+    - /tmp/magento2devbox/magento/scripts/install-magento.sh
+    - /tmp/magento2devbox/magento/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.2.7"
   services:
@@ -75,10 +75,9 @@ magento-2.3-validation:
   image: yireo/magento2ci:7.2
   stage: fullinstall
   script:
-    - git clone https://gitlab.yireo.com/tools/magento2devbox.git
-    - mv magento2devbox/magento /shared
-    - /shared/scripts/install-magento.sh
-    - /shared/scripts/gitlab-ci.sh
+    - git clone https://gitlab.yireo.com/tools/magento2devbox.git /tmp/magento2devbox
+    - /tmp/magento2devbox/magento/scripts/install-magento.sh
+    - /tmp/magento2devbox/magento/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.3.0"
   services:
