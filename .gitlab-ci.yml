@@ -49,6 +49,8 @@ magento-2.1-validation:
     - /shared/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.1.12"
+    RUN_PHPUNIT_UNIT_TESTS: "0"
+    RUN_PHPUNIT_INTEGRATION_TESTS: "0"
   services:
     - name: mysql:5.7
     - name: redis
@@ -106,6 +108,15 @@ variables:
   MYSQL_DATABASE: "magento2"
   MYSQL_ROOT_PASSWORD: "root"
   MYSQL_SQL_TO_RUN: 'GRANT ALL ON *.* TO "magento2"@"%";'
+
+  # CI purpose
+  EXTENSION_VENDOR: "Yireo"
+  EXTENSION_NAME: "TaxRatesManager2"
+  RUN_PHPCS_EQP2: "1"
+  RUN_PHPCS_EXTDN: "1"
+  RUN_YIREO_EXTENSIONCHECKER: "1"
+  RUN_PHPUNIT_UNIT_TESTS: "1"
+  RUN_PHPUNIT_INTEGRATION_TESTS: "1"
 
 cache:
   key: "$CI_JOB_NAME"
