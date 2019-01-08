@@ -92,7 +92,7 @@ variables:
   COMPOSER_ALLOW_SUPERUSER: "1"
 
   # Custom webfolder
-  WEB_DIR: "/tmp/magento"
+  WEB_DIR: "/magento"
   DOCKER_DRIVER: overlay2
 
   # Simple flags to speed up deployment
@@ -121,4 +121,5 @@ variables:
 cache:
   key: "$CI_JOB_NAME"
   paths:
-    - /cache
+    - /cache/
+    - vendor/
