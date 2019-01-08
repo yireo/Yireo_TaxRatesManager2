@@ -28,7 +28,7 @@ php-7.2-phpcs:
   stage: basic
   image: yireo/php-testbox:7.2
   script:
-    - phpcs --colors --standard=PSR2 --report=full .
+    - phpcs --colors --standard=PSR2 --report=full --extensions=php,phtml .
     - composer validate
 
 # Magento MEQP2 validation
@@ -49,12 +49,12 @@ magento-2.1-validation:
     - /tmp/magento2devbox/magento/scripts/gitlab-ci.sh
   variables:
     MAGENTO_VERSION: "2.1.12"
+    MAGENTO_ADD_REDIS: "1"
     RUN_PHPUNIT_UNIT_TESTS: "0"
     RUN_PHPUNIT_INTEGRATION_TESTS: "0"
     RUN_YIREO_EXTENSIONCHECKER: "0"
   services:
     - name: mysql:5.7
-    - name: redis
 
 # Magento 2.2 testing
 magento-2.2-validation:
@@ -87,7 +87,7 @@ magento-2.3-validation:
 # Global variables
 variables:
   # Magento Marketplace authentication and other Composer handies
-  COMPOSER_AUTH: '{"http-basic":{"repo.magento.com":{"username":"d2eb3c98428210463077e4ca2b806e90","password":"bf5d07ecb44854e94d7f78ef969d9470"}}}'
+  COMPOSER_AUTH: '{"github-oauth": {"github.com": "b3266640384e8e16ea88819dfcc5e39782f36a89"},"http-basic":{"repo.magento.com":{"username":"d2eb3c98428210463077e4ca2b806e90","password":"bf5d07ecb44854e94d7f78ef969d9470"}}}'
   COMPOSER_CACHE_DIR: "/cache"
   COMPOSER_ALLOW_SUPERUSER: "1"
 
