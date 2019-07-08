@@ -5,7 +5,7 @@
  *
  * @package     Yireo_TaxRatesManager 2
  * @author      Yireo (https://www.yireo.com/)
- * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2019 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
  */
 -->
@@ -15,7 +15,7 @@
             <label>Yireo</label>
         </tab>
         <section id="taxratesmanager" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-            <label>TaxRatesManager2</label>
+            <label>Yireo TaxRatesManager2</label>
             <tab>yireo</tab>
             <resource>Yireo_TaxRatesManager2::config_yireo_taxratesmanager2</resource>
             <group id="settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">

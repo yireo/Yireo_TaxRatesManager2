@@ -100,7 +100,7 @@ class Clean extends Action
             }
         }
 
-        $this->check->setFixAutomatically(true);
-        $this->check->execute();
+        //$this->check->setFixAutomatically(true);
+        //$this->check->execute();
     }
 }

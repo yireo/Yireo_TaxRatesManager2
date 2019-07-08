@@ -1,23 +1,42 @@
-# 1.2.1 (January 2019)
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [1.2.2] - July 2019
+### Added
+- Add KeepAChangeLog support
+- Move configuration to separate **Yireo** section
+
+## [1.2.1] - January 2019
+### Added
 - Fix issue with mail not being sent via cron
 - Add website name to email subject
 - Increase cron time to every 3 minutes
 
-# 1.2.0 (December 2019)
+# [1.2.0] - December 2019
+### Added
 - Add Fix link to notices
 - Add "Clean All Rates" button
 - Clean up dependencies in composer file
 - Add GitLab CI integration
 
-# 1.0.1 (December 2019)
+# [1.0.1] - December 2019
+### Added
 - Fix typo in settings
 
-# 1.0.0 (December 2019)
+# [1.0.0] - December 2019
+### Added
 - Stable release
 
-# 0.0.2 (December 2019)
+# [0.0.2] - December 2019
+### Added
 - Integration tests completed
 - Functional tests completed
 
-# 0.0.1 (December 2019)
+# [0.0.1] - December 2019
+### Added
 - Working proof of concept
