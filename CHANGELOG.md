@@ -6,8 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.2] - July 2019
+## [1.2.2] - 29 July 2019
 ### Added
+- Support for Magento 2.4
 - Add KeepAChangeLog support
 - Move configuration to separate **Yireo** section
 
