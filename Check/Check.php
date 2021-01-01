@@ -239,7 +239,7 @@ class Check
             $storedRate->getPercentage()
         );
 
-        if ($this->fixAutomatically || $this->config->fixAutomatically()) {
+        if ($suggestRate > 0 && ($this->fixAutomatically || $this->config->fixAutomatically())) {
             $storedRate->setPercentage($suggestRate);
             $this->storedRatesProvider->saveRate($storedRate);
             $msg = sprintf(
