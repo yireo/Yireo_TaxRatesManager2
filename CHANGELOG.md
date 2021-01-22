@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.3] - 1 January 2021
+### Fixed
+- Only report rates higher than 0
+
 ## [1.2.2] - 29 July 2019
 ### Added
 - Support for Magento 2.4
