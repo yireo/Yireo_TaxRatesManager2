@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.5] - 25 April 2022
+### Fixed
+- Version bump
+
 ## [1.2.4] - 25 April 2022
 ### Fixed
 - Upgrade Guzzle because of Magento 2.4.4
