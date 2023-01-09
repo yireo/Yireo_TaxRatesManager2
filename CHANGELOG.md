@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.6] - 9 January 2023
+### Fixed
+- Properly use ZIP codes from feed
+
 ## [1.2.5] - 25 April 2022
 ### Fixed
 - Version bump

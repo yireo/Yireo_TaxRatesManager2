@@ -33,6 +33,11 @@ class Rate
     private $countryId;
 
     /**
+     * @var string
+     */
+    private $postcode;
+
+    /**
      * @var float
      */
     private $percentage;
@@ -48,11 +53,13 @@ class Rate
         int $id,
         string $code,
         string $countryId,
+        string $postcode,
         float $percentage
     ) {
         $this->id = $id;
         $this->code = $code;
         $this->countryId = $countryId;
+        $this->postcode = $postcode;
         $this->percentage = $percentage;
     }
 
@@ -78,6 +85,22 @@ class Rate
     public function getCountryId(): string
     {
         return $this->countryId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostcode(): string
+    {
+        return $this->postcode;
+    }
+
+    /**
+     * @param string $postcode
+     */
+    public function setPostcode(string $postcode): void
+    {
+        $this->postcode = $postcode;
     }
 
     /**

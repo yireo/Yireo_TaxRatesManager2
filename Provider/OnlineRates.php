@@ -88,6 +88,7 @@ class OnlineRates
                 0,
                 (string)$onlineRate['code'],
                 (string)$onlineRate['country'],
+                (string)$onlineRate['zip'],
                 (float)$onlineRate['rate']
             );
         }

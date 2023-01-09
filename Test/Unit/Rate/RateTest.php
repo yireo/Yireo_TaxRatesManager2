@@ -23,10 +23,11 @@ class RateTest extends TestCase
 {
     public function testRateCreation()
     {
-        $target = new Target(42, 'foobar', 'fr', 2.0);
-        $this->assertSame($target->getId(), 42);
-        $this->assertSame($target->getCode(), 'foobar');
-        $this->assertSame($target->getCountryId(), 'fr');
-        $this->assertSame($target->getPercentage(), 2.0);
+        $target = new Target(42, 'foobar', 'fr', '*', 2.0);
+        $this->assertSame(42, $target->getId());
+        $this->assertSame('foobar', $target->getCode());
+        $this->assertSame('fr', $target->getCountryId());
+        $this->assertSame('*', $target->getPostcode(), '*');
+        $this->assertSame(2.0, $target->getPercentage());
     }
 }

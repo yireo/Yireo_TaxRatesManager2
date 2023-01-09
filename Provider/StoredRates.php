@@ -78,6 +78,7 @@ class StoredRates
             (int)$item->getId(),
             (string)$item->getCode(),
             (string)$item->getTaxCountryId(),
+            (string)$item->getTaxPostcode(),
             (float)$item->getRate()
         );
     }
@@ -101,6 +102,7 @@ class StoredRates
                 (int)$item->getId(),
                 (string)$item->getCode(),
                 (string)$item->getTaxCountryId(),
+                (string)$item->getTaxPostcode(),
                 (float)$item->getRate()
             );
         }
@@ -125,7 +127,7 @@ class StoredRates
 
         $model->setTaxCountryId($rate->getCountryId());
         $model->setRate($rate->getPercentage());
-        $model->setTaxPostcode('*');
+        $model->setTaxPostcode($rate->getPostcode());
         $this->taxRateRepository->save($model);
     }
 
