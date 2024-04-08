@@ -163,7 +163,7 @@ class OnlineRates
     private function getCacheId(): string
     {
         $feedUrl = $this->config->getFeedUrl();
-        return 'TAXRATESMANAGER_' . md5($feedUrl);
+        return 'TAXRATESMANAGER_' . md5($feedUrl); // phpcs:ignore
     }
 
     /**
