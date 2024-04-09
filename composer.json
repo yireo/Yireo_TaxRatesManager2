@@ -2,7 +2,7 @@
   "name": "yireo/magento2-taxratesmanager2",
   "license": "OSL-3.0",
   "type": "magento2-module",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "homepage": "https://www.yireo.com/software/magento-extensions/taxratesmanager2",
   "description": "Manage EU VAT rates automatically",
   "keywords": [
