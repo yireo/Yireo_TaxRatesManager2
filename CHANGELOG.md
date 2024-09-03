@@ -6,11 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.8] - 9 April 2028
+## [1.2.9] - 9 April 2024
+### Fixed
+- Fix calling Rate class in the Add action #2 @se-viacheslav
+
+## [1.2.8] - 9 April 2023
 ### Fixed
 - Compat psr/log with Magento 2.4.7
 
-## [1.2.7] - 8 April 2028
+## [1.2.7] - 8 April 2023
 - Failed release
 
 ## [1.2.6] - 9 January 2023

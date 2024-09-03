@@ -98,13 +98,13 @@ class Add extends Action
      * @throws InputException
      * @throws NoSuchEntityException
      */
-    private function add(string $code, string $country, float $percentage)
+    private function add(string $code, string $country, float $percentage, string $postcode = '*')
     {
         $rate = new Rate(
             0,
             $code,
             $country,
-            '*',
+            $postcode,
             $percentage
         );
 
