@@ -140,6 +140,7 @@ class OnlineRates
         $rows = array_map('str_getcsv', explode("\n", $contents));
         $headerRow = array_shift($rows);
         $this->validateHeaderRow($headerRow);
+        $rates = [];
 
         foreach ($rows as $row) {
             if (empty($row[0])) {
