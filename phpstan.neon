@@ -1,0 +1,5 @@
+parameters:
+    excludePaths:
+        - */Test/*/*
+        - MageWire/Component.php
+        - MageWire/Checkout.php
