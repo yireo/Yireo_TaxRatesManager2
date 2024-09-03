@@ -104,6 +104,7 @@ class Add extends Action
             0,
             $code,
             $country,
+            '*',
             $percentage
         );
 
