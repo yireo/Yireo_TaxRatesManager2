@@ -126,7 +126,7 @@ class CheckRunner
     private function sendMail(string $contents)
     {
         $name = $this->scopeConfig->getValue('trans_email/ident_support/name');
-        $email = $this->scopeConfig->getValue('trans_email/ident_support/email');
+        $email = $this->config->email();
 
         $templateParams = [];
         $templateParams['output'] = $contents;

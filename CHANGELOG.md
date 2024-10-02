@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.10] - 2 October 2024
+### Fixed
+- Send mail by using the configured email address
+
 ## [1.2.9] - 9 April 2024
 ### Fixed
 - Fix calling Rate class in the Add action #2 @se-viacheslav
