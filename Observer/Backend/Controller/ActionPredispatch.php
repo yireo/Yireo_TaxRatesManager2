@@ -59,7 +59,7 @@ class ActionPredispatch implements ObserverInterface
             return $this;
         }
 
-        $controllerName = $this->request->getControllerName(); // @phpstan-ignore-line
+        $controllerName = $this->request->getControllerName();
         if ($controllerName !== 'rate') {
             return $this;
         }
