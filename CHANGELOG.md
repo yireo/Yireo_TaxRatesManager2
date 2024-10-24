@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.10] - 24 October 2024
+## [1.2.11] - 24 October 2024
 ### Fixed
 - Add funding
+
+## [1.2.10] - 2 October 2024
+### Fixed
+- Send mail by using the configured email address
 
 ## [1.2.9] - 9 April 2024
 ### Fixed
