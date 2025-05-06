@@ -32,7 +32,7 @@ class AbstractTestCase extends TestCase
      * @magentoConfigFixture taxratesmanager/settings/alternative_feed_source
      * @magentoConfigFixture taxratesmanager/settings/update_name 0
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
