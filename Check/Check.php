@@ -92,7 +92,7 @@ class Check
         Comparer $comparer,
         VatModel $vatModel,
         UrlInterface $url,
-        int $verbosity = null
+        ?int $verbosity = null
     ) {
         $this->config = $config;
         $this->logger = $logger;
