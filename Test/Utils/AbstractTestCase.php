@@ -17,26 +17,16 @@ use Magento\Framework\App\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AbstractTestCase
+ * @magentoConfigFixture taxratesmanager/settings/fix_automatically_in_backend 0
+ * @magentoConfigFixture taxratesmanager/settings/fix_automatically_in_cron 0
+ * @magentoConfigFixture taxratesmanager/settings/send_email 0
+ * @magentoConfigFixture taxratesmanager/settings/email info@example.org
+ * @magentoConfigFixture taxratesmanager/settings/feed_source tax_rates_eu.csv
+ * @magentoConfigFixture taxratesmanager/settings/alternative_feed_source
+ * @magentoConfigFixture taxratesmanager/settings/update_name 0
  */
 class AbstractTestCase extends TestCase
 {
-    /**
-     * Setup the configuration with default values
-     *
-     * @magentoConfigFixture taxratesmanager/settings/fix_automatically_in_backend 0
-     * @magentoConfigFixture taxratesmanager/settings/fix_automatically_in_cron 0
-     * @magentoConfigFixture taxratesmanager/settings/send_email 0
-     * @magentoConfigFixture taxratesmanager/settings/email info@example.org
-     * @magentoConfigFixture taxratesmanager/settings/feed_source tax_rates_eu.csv
-     * @magentoConfigFixture taxratesmanager/settings/alternative_feed_source
-     * @magentoConfigFixture taxratesmanager/settings/update_name 0
-     */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      * @return ScopeConfigInterface
      */
