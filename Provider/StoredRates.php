@@ -125,9 +125,14 @@ class StoredRates
             $model->setCode($rate->getCode());
         }
 
+        $postcode = $rate->getPostcode();
+        if (empty($postcode)) {
+            $postcode = '*';
+        }
+
         $model->setTaxCountryId($rate->getCountryId());
         $model->setRate($rate->getPercentage());
-        $model->setTaxPostcode($rate->getPostcode());
+        $model->setTaxPostcode($postcode);
         $this->taxRateRepository->save($model);
     }
 

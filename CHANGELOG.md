@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.11] - 19 July 2025
+### Fixed
+- Fix possible error with empty postcode
+
 ## [1.2.10] - 2 October 2024
 ### Fixed
 - Send mail by using the configured email address
