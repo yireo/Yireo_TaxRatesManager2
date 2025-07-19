@@ -6,9 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.11] - 19 July 2025
+## [1.2.13] - 19 July 2025
 ### Fixed
 - Fix possible error with empty postcode
+
+## [1.2.12] - 06 May 2025
+### Fixed
+- Fix PHP 8.4 issue
+- Fix compat with PHPUnit
+- Remove `setup_version` and add `Magento_Config` dep
+
+## [1.2.11] - 24 October 2024
+### Fixed
+- Add funding
 
 ## [1.2.10] - 2 October 2024
 ### Fixed

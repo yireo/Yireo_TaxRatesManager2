@@ -20,6 +20,10 @@
             <resource>Yireo_TaxRatesManager2::config_yireo_taxratesmanager2</resource>
             <group id="settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
                 <label>Settings</label>
+                <field id="funding" type="note" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Funding</label>
+                    <frontend_model>Yireo\TaxRatesManager2\Config\Frontend\Funding</frontend_model>
+                </field>
                 <field id="fix_automatically_in_backend" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
                     <label>Fix Automatically via Backend</label>
                     <comment><![CDATA[Fix all suggestions automatically in Magento Admin Panel]]></comment>
