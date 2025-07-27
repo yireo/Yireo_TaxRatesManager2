@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.14] - 27 July 2025
+### Fixed
+- $escape parameter must be provided #5
+
 ## [1.2.13] - 19 July 2025
 ### Fixed
 - Fix possible error with empty postcode
