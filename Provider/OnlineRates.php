@@ -137,7 +137,7 @@ class OnlineRates
     {
         $response = $this->client->get($this->config->getFeedUrl());
         $contents = (string) $response->getBody();
-        $rows = array_map('str_getcsv', explode("\n", $contents));
+        $rows = array_map(fn ($data) => str_getcsv($data, ''), explode("\n", $contents));
         $headerRow = array_shift($rows);
         $this->validateHeaderRow($headerRow);
         $rates = [];
