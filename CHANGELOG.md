@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.15] - 22 October 2025
+### Fixed
+- Add integration test helper to GitHub Action
+- Add dep with integration testing helper
+- Always run integration tests
+- Add new workflow tests
+
 ## [1.2.14] - 27 July 2025
 ### Fixed
 - $escape parameter must be provided #5
