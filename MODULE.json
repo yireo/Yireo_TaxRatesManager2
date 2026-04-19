@@ -1,0 +1,87 @@
+{
+    "module_name": "Yireo_TaxRatesManager2",
+    "composer_name": "yireo/magento2-taxratesmanager2",
+    "sequence": [
+        "Magento_Backend",
+        "Magento_Config",
+        "Magento_Customer",
+        "Magento_Store",
+        "Magento_Tax"
+    ],
+    "php_versions": [
+        "8.1",
+        "8.2",
+        "8.3",
+        "8.4"
+    ],
+    "skip_magento_versions": [],
+    "skip_css_utils": false,
+    "modules": [
+        "Magento_Backend",
+        "Magento_Catalog",
+        "Magento_Checkout",
+        "Magento_Config",
+        "Magento_Customer",
+        "Magento_Directory",
+        "Magento_Eav",
+        "Magento_Store",
+        "Magento_Tax",
+        "Magento_Theme",
+        "Magento_User"
+    ],
+    "components": [],
+    "config": [
+        {
+            "path": "taxratesmanager/settings/funding",
+            "label": "Settings > Funding",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/fix_automatically_in_backend",
+            "label": "Settings > Fix Automatically via Backend",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/fix_automatically_in_cron",
+            "label": "Settings > Fix Automatically via Cron",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/send_email",
+            "label": "Settings > Send Email",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/email",
+            "label": "Settings > Email address",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/feed_source",
+            "label": "Settings > Feed source",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/alternative_feed_source",
+            "label": "Settings > Alternative feed source",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/update_name",
+            "label": "Settings > Update Tax Rate name",
+            "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/cache",
+            "label": "Settings > Enable cache",
+            "description": ""
+        }
+    ],
+    "tests": {
+        "unit": 3,
+        "integration": 3,
+        "functional": 0
+    },
+    "phpcs_severity": 10,
+    "phpstan_level": 1
+}
