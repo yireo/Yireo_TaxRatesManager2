@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 19 April 2026
+### Fixed
+- Add CLI command to add all rates
+- Copy generic CI/CD files
+
 ## [1.2.15] - 22 October 2025
 ### Fixed
 - Add integration test helper to GitHub Action

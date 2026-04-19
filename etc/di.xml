@@ -11,4 +11,13 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Yireo\TaxRatesManager2\Api\LoggerInterface" type="Yireo\TaxRatesManager2\Logger\Console"/>
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="yireo_taxratesmanager2_import_all_command" xsi:type="object">
+                    Yireo\TaxRatesManager2\Console\Command\ImportAllCommand
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>
