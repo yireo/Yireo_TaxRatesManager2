@@ -2,5 +2,5 @@
 /** @var $block \Magento\Framework\View\Element\Template */
 ?>
 <div class="msg">
-<?php echo $block->getData('msg') ?>
+<?= /** @noEscape */ $block->getData('msg') ?>
 </div>
