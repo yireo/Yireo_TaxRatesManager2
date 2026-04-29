@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 29 April 2026
+### Fixed
+- Show error in backend when clean task gives exception
+
 ## [1.3.0] - 19 April 2026
 ### Fixed
 - Add CLI command to add all rates
