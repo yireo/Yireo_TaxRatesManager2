@@ -14,13 +14,10 @@ namespace Yireo\TaxRatesManager2\Controller\Adminhtml\Index;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Yireo\TaxRatesManager2\Check\Check;
 use Yireo\TaxRatesManager2\Provider\OnlineRates as OnlineRatesProvider;
 use Yireo\TaxRatesManager2\Provider\StoredRates as StoredRatesProvider;
@@ -35,19 +32,9 @@ class Clean extends Action
     const ADMIN_RESOURCE = 'Yireo_TaxRatesManager2::index';
 
     /**
-     * @var Check
-     */
-    private $check;
-
-    /**
      * @var StoredRatesProvider
      */
     private $storedRatesProvider;
-
-    /**
-     * @var OnlineRatesProvider
-     */
-    private $onlineRatesProvider;
 
     /**
      * Fix constructor.
@@ -61,15 +48,11 @@ class Clean extends Action
     public function __construct(
         Context $context,
         RedirectFactory $resultRedirectFactory,
-        Check $check,
         StoredRatesProvider $storedRatesProvider,
-        OnlineRatesProvider $onlineRatesProvider
     ) {
         parent::__construct($context);
         $this->resultRedirectFactory = $resultRedirectFactory;
-        $this->check = $check;
         $this->storedRatesProvider = $storedRatesProvider;
-        $this->onlineRatesProvider = $onlineRatesProvider;
     }
 
 
@@ -96,11 +79,9 @@ class Clean extends Action
             try {
                 $this->storedRatesProvider->deleteRate($rate);
             } catch (CouldNotDeleteException $exception) {
+                $this->messageManager->addErrorMessage($exception->getMessage());
                 continue;
             }
         }
-
-        //$this->check->setFixAutomatically(true);
-        //$this->check->execute();
     }
 }
