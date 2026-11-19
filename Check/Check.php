@@ -131,7 +131,7 @@ class Check
         }
 
         $onlineRates = $this->onlineRatesProvider->getRates();
-        if (empty($storedRates)) {
+        if (empty($onlineRates)) {
             $this->logger->warning('No online rates found');
         }
 
