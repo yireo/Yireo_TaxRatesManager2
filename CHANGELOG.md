@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Make the cron schedule configurable and run the check daily by default instead of every 3 minutes
 
 ## [1.3.1] - 29 April 2026
 ### Fixed

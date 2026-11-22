@@ -62,6 +62,10 @@
                     <comment><![CDATA[Allow for caching rates fetched online]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="cron_schedule" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="text">
+                    <label>Cron schedule</label>
+                    <comment><![CDATA[Cron expression for the scheduled check, for example <code>0 3 * * *</code> (daily at 03:00). Leave empty to use the default daily schedule.]]></comment>
+                </field>
             </group>
         </section>
     </system>
