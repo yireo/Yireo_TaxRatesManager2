@@ -2,6 +2,8 @@
 
 namespace Yireo\TaxRatesManager2\Test\Integration\Config\Backend;
 
+use Magento\Config\Model\Config;
+use Magento\Config\Model\ResourceModel\Config\Data\Collection as ConfigCollection;
 use Magento\Framework\Exception\ValidatorException;
 use Yireo\TaxRatesManager2\Config\Backend\CronSchedule;
 use Yireo\TaxRatesManager2\Test\Integration\TestCase;
@@ -58,23 +60,33 @@ class CronScheduleTest extends TestCase
 
     /**
      * @magentoDbIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testSaveRejectsInvalidValue()
     {
         $this->expectException(ValidatorException::class);
-        $this->createBackendModel('every day')->save();
+        $this->saveConfig('every day');
     }
 
     /**
      * @magentoDbIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testSaveStoresValidValue()
     {
-        $this->createBackendModel('0 */6 * * *')->save();
+        $this->saveConfig('0 */6 * * *');
 
-        $backendModel = $this->getObjectManager()->create(CronSchedule::class);
-        $backendModel->load(self::CONFIG_PATH, 'path');
-        $this->assertSame('0 */6 * * *', $backendModel->getValue());
+        $collection = $this->getObjectManager()->create(ConfigCollection::class);
+        $collection->addFieldToFilter('path', self::CONFIG_PATH);
+        $collection->addFieldToFilter('scope', 'default');
+        $this->assertSame('0 */6 * * *', $collection->getFirstItem()->getValue());
+    }
+
+    private function saveConfig(string $value): void
+    {
+        $config = $this->getObjectManager()->create(Config::class);
+        $config->setDataByPath(self::CONFIG_PATH, $value);
+        $config->save();
     }
 
     private function createBackendModel(string $value): CronSchedule

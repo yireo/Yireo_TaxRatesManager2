@@ -5,7 +5,7 @@ namespace Yireo\TaxRatesManager2\Test\Integration\Cron;
 use Magento\Config\Model\Config\Structure;
 use Magento\Config\Model\Config\Structure\Element\Field;
 use Magento\Cron\Model\ConfigInterface as CronConfig;
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Config\Initial as InitialConfig;
 use Yireo\TaxRatesManager2\Config\Backend\CronSchedule;
 use Yireo\TaxRatesManager2\Cron\CheckRunner;
 use Yireo\TaxRatesManager2\Test\Integration\TestCase;
@@ -28,8 +28,8 @@ class CronScheduleConfigTest extends TestCase
 
     public function testDefaultScheduleIsDaily()
     {
-        $scopeConfig = $this->getObjectManager()->get(ScopeConfigInterface::class);
-        $this->assertSame('0 3 * * *', $scopeConfig->getValue(self::CONFIG_PATH));
+        $defaults = $this->getObjectManager()->get(InitialConfig::class)->getData('default');
+        $this->assertSame('0 3 * * *', $defaults['taxratesmanager']['settings']['cron_schedule']);
     }
 
     /**
