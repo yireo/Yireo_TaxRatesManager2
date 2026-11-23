@@ -4,6 +4,7 @@
     "sequence": [
         "Magento_Backend",
         "Magento_Config",
+        "Magento_Cron",
         "Magento_Customer",
         "Magento_Store",
         "Magento_Tax"
@@ -21,6 +22,7 @@
         "Magento_Catalog",
         "Magento_Checkout",
         "Magento_Config",
+        "Magento_Cron",
         "Magento_Customer",
         "Magento_Directory",
         "Magento_Eav",
