@@ -12,7 +12,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
 	<group id="default">
 		<job instance="Yireo\TaxRatesManager2\Cron\CheckRunner" method="execute" name="yireo_taxratesmanager2_check">
-			<schedule>*/3 * * * *</schedule>
+			<schedule>0 3 * * *</schedule>
+			<config_path>taxratesmanager/settings/cron_schedule</config_path>
 		</job>
 	</group>
 </config>

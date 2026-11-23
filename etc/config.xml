@@ -21,6 +21,7 @@
                 <alternative_feed_source/>
                 <update_name>0</update_name>
                 <cache>1</cache>
+                <cron_schedule>0 3 * * *</cron_schedule>
             </settings>
         </taxratesmanager>
     </default>
