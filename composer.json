@@ -26,9 +26,11 @@
         "magento/module-store": "^100.0|^101.0",
         "magento/module-tax": "^100.0",
         "php": ">=8.2 <8.6",
+        "psr/http-message": "^1.0 || ^2.0",
         "psr/log": "^1 || ^2 || ^3"
     },
     "require-dev": {
+        "guzzlehttp/psr7": "^1.9 || ^2.4",
         "phpunit/phpunit": "^9.0|^10.0",
         "yireo/magento2-integration-test-helper": "~0.0"
     },
