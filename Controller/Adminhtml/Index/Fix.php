@@ -19,7 +19,9 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
+use InvalidArgumentException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Yireo\TaxRatesManager2\Check\Check;
 use Yireo\TaxRatesManager2\Provider\OnlineRates as OnlineRatesProvider;
@@ -82,13 +84,20 @@ class Fix extends Action implements HttpPostActionInterface
 
     /**
      * @return ResultInterface
-     * @throws InputException
-     * @throws NoSuchEntityException
      */
     public function execute()
     {
         $id = (int)$this->request->getParam('id');
-        $this->fix($id);
+
+        try {
+            if ($id <= 0) {
+                throw new InputException(__('Invalid tax rate ID'));
+            }
+
+            $this->fix($id);
+        } catch (LocalizedException|InvalidArgumentException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
+        }
 
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();

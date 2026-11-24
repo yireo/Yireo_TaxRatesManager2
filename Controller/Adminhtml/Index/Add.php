@@ -19,12 +19,15 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
+use InvalidArgumentException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\NotFoundException;
 use Yireo\TaxRatesManager2\Provider\StoredRates as StoredRatesProvider;
 use Yireo\TaxRatesManager2\Provider\OnlineRates as OnlineRatesProvider;
 use Yireo\TaxRatesManager2\Rate\Rate;
+use Yireo\TaxRatesManager2\Rate\RateValidator;
 
 /**
  * Class Add
@@ -57,13 +60,15 @@ class Add extends Action implements HttpPostActionInterface
      * @param RequestInterface $request
      * @param StoredRatesProvider $storedRatesProvider
      * @param OnlineRatesProvider $onlineRatesProvider
+     * @param RateValidator $rateValidator
      */
     public function __construct(
         Context $context,
         RedirectFactory $resultRedirectFactory,
         RequestInterface $request,
         StoredRatesProvider $storedRatesProvider,
-        OnlineRatesProvider $onlineRatesProvider
+        OnlineRatesProvider $onlineRatesProvider,
+        private readonly RateValidator $rateValidator
     ) {
         parent::__construct($context);
         $this->resultRedirectFactory = $resultRedirectFactory;
@@ -74,15 +79,23 @@ class Add extends Action implements HttpPostActionInterface
 
     /**
      * @return ResultInterface
-     * @throws InputException
-     * @throws NoSuchEntityException
      */
     public function execute()
     {
         $country = (string)$this->request->getParam('country');
         $percentage = (float)$this->request->getParam('percentage');
-        $code = $this->getCodeByCountryAndPercentage($country, $percentage);
-        $this->add($code, $country, $percentage);
+
+        try {
+            if (!$this->rateValidator->isValidCountryId($country)
+                || !$this->rateValidator->isValidPercentage($percentage)) {
+                throw new InputException(__('Invalid country or percentage'));
+            }
+
+            $code = $this->getCodeByCountryAndPercentage($country, $percentage);
+            $this->add($code, $country, $percentage);
+        } catch (LocalizedException|InvalidArgumentException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
+        }
 
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
