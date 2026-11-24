@@ -29,9 +29,10 @@ interface LoggerInterface
     public function success(string $msg);
 
     /**
-     * @param string $msg
+     * @param string $msg Plain text, never HTML
+     * @param array{url?: string, label?: string, params?: array<string, scalar>} $action Optional POST action
      */
-    public function warning(string $msg);
+    public function warning(string $msg, array $action = []);
 
     /**
      * @param string $msg

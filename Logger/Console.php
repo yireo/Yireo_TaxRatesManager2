@@ -38,8 +38,9 @@ class Console implements LoggerInterface
 
     /**
      * @param string $msg
+     * @param array $action
      */
-    public function warning(string $msg)
+    public function warning(string $msg, array $action = [])
     {
         echo "WARNING: " . $msg . "\n";
     }

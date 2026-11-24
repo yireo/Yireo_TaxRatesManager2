@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Yireo\TaxRatesManager2\Logger;
 
+use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\ManagerInterface;
 use Yireo\TaxRatesManager2\Api\LoggerInterface;
 
@@ -28,9 +29,11 @@ class Messages implements LoggerInterface
     /**
      * Messages constructor.
      * @param ManagerInterface $messageManager
+     * @param FormKey $formKey
      */
     public function __construct(
-        ManagerInterface $messageManager
+        ManagerInterface $messageManager,
+        private readonly FormKey $formKey
     ) {
         $this->messageManager = $messageManager;
     }
@@ -53,10 +56,19 @@ class Messages implements LoggerInterface
 
     /**
      * @param string $msg
+     * @param array $action
      */
-    public function warning(string $msg)
+    public function warning(string $msg, array $action = [])
     {
-        $this->messageManager->addComplexWarningMessage('htmlWarning', ['msg' => $msg]);
+        $data = ['msg' => $msg];
+        if (!empty($action['url'])) {
+            $data['action_url'] = (string)$action['url'];
+            $data['action_label'] = (string)($action['label'] ?? $action['url']);
+            $data['action_params'] = (array)($action['params'] ?? []);
+            $data['form_key'] = $this->formKey->getFormKey();
+        }
+
+        $this->messageManager->addComplexWarningMessage('htmlWarning', $data);
     }
 
     /**

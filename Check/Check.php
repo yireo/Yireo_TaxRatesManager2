@@ -258,19 +258,13 @@ class Check
             $msg .= ' Perhaps it should be removed or empty?';
         }
 
-        $msg .= ' (<a href="' . $this->getFixUrl($storedRate) . '">Fix this now</a>)';
+        $this->logger->warning($msg, [
+            'url' => $this->url->getUrl('taxratesmanager/index/fix'),
+            'label' => (string)__('Fix this now'),
+            'params' => ['id' => $storedRate->getId()],
+        ]);
 
-        $this->logger->warning($msg);
         return false;
-    }
-
-    /**
-     * @param Rate $rate
-     * @return string
-     */
-    private function getFixUrl(Rate $rate): string
-    {
-        return $this->url->getUrl('taxratesmanager/index/fix', ['id' => $rate->getId()]);
     }
 
     /**
@@ -317,8 +311,14 @@ class Check
             $onlineRate->getCountryId()
         );
 
-        $msg .= ' (<a href="' . $this->getAddUrl($onlineRate) . '">Add</a>)';
-        $this->logger->warning($msg);
+        $this->logger->warning($msg, [
+            'url' => $this->url->getUrl('taxratesmanager/index/add'),
+            'label' => (string)__('Add'),
+            'params' => [
+                'country' => $onlineRate->getCountryId(),
+                'percentage' => $onlineRate->getPercentage(),
+            ],
+        ]);
 
         if ($this->fixAutomatically || $this->config->fixAutomatically()) {
             $this->storedRatesProvider->saveRate($onlineRate);
@@ -332,22 +332,6 @@ class Check
         }
 
         return true;
-    }
-
-    /**
-     * Get the URL for adding a new rate
-     *
-     * @param Rate $rate
-     * @return string
-     */
-    private function getAddUrl(Rate $rate): string
-    {
-        $data = [
-            'country' => $rate->getCountryId(),
-            'percentage' => $rate->getPercentage(),
-        ];
-
-        return $this->url->getUrl('taxratesmanager/index/add', $data);
     }
 
     /**

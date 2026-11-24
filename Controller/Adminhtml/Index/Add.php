@@ -14,6 +14,7 @@ namespace Yireo\TaxRatesManager2\Controller\Adminhtml\Index;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
@@ -30,7 +31,7 @@ use Yireo\TaxRatesManager2\Rate\Rate;
  *
  * @package Yireo\TaxRatesManager2\Controller\Adminhtml\Index
  */
-class Add extends Action
+class Add extends Action implements HttpPostActionInterface
 {
     const ADMIN_RESOURCE = 'Yireo_TaxRatesManager2::index';
 

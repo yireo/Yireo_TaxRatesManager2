@@ -30,9 +30,15 @@ class CheckTest extends TestCase
      */
     private $messages = [];
 
+    /**
+     * @var array
+     */
+    private $actions = [];
+
     protected function setUp(): void
     {
         $this->messages = ['info' => [], 'success' => [], 'warning' => [], 'error' => []];
+        $this->actions = [];
     }
 
     public function testWarnsAboutMissingOnlineRatesOnly()
@@ -83,6 +89,30 @@ class CheckTest extends TestCase
         $this->assertStringContainsString('Existing rate "NL" (21%) seems incorrect.', $this->messages['warning'][1]);
     }
 
+    public function testIncorrectStoredRateWarningIsPlainTextWithFixAction()
+    {
+        $storedRate = new Rate(42, '<img src=x onerror=alert(1)>', 'NL', '*', 20.0);
+        $this->createCheck([$storedRate], [$this->createRate('NL', 21.0)], true)->execute();
+
+        $this->assertCount(2, $this->messages['warning']);
+        foreach ($this->messages['warning'] as $message) {
+            $this->assertStringNotContainsString('<a ', $message);
+            $this->assertStringNotContainsString('href', $message);
+        }
+        $this->assertSame('https://example.com/', $this->actions['warning'][0]['url']);
+        $this->assertSame(['id' => 42], $this->actions['warning'][0]['params']);
+    }
+
+    public function testNewOnlineRateWarningIsPlainTextWithAddAction()
+    {
+        $onlineRates = [$this->createRate('NL', 21.0), $this->createRate('BE', 21.0)];
+        $this->createCheck([$this->createRate('NL', 21.0)], $onlineRates, true)->execute();
+
+        $this->assertCount(1, $this->messages['warning']);
+        $this->assertStringNotContainsString('<a ', $this->messages['warning'][0]);
+        $this->assertSame(['country' => 'BE', 'percentage' => 21.0], $this->actions['warning'][0]['params']);
+    }
+
     private function createRate(string $countryId, float $percentage): Rate
     {
         return new Rate(1, $countryId, $countryId, '*', $percentage);
@@ -98,8 +128,9 @@ class CheckTest extends TestCase
     {
         $logger = $this->createMock(LoggerInterface::class);
         foreach (array_keys($this->messages) as $type) {
-            $logger->method($type)->willReturnCallback(function (string $msg) use ($type) {
+            $logger->method($type)->willReturnCallback(function (string $msg, array $action = []) use ($type) {
                 $this->messages[$type][] = $msg;
+                $this->actions[$type][] = $action;
             });
         }
 

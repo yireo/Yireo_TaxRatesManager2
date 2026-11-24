@@ -1,6 +1,26 @@
-<?php
-/** @var $block \Magento\Framework\View\Element\Template */
+<?php declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+$actionUrl = (string)$block->getData('action_url');
+$actionParams = (array)$block->getData('action_params');
 ?>
 <div class="msg">
-<?= /** @noEscape */ $block->getData('msg') ?>
+    <?= $escaper->escapeHtml((string)$block->getData('msg')) ?>
+    <?php if ($actionUrl !== ''): ?>
+        <form method="post" action="<?= $escaper->escapeUrl($actionUrl) ?>" class="taxratesmanager-action">
+            <input type="hidden" name="form_key"
+                   value="<?= $escaper->escapeHtmlAttr((string)$block->getData('form_key')) ?>"/>
+            <?php foreach ($actionParams as $name => $value): ?>
+                <input type="hidden" name="<?= $escaper->escapeHtmlAttr((string)$name) ?>"
+                       value="<?= $escaper->escapeHtmlAttr((string)$value) ?>"/>
+            <?php endforeach; ?>
+            <button type="submit" class="action-secondary">
+                <?= $escaper->escapeHtml((string)$block->getData('action_label')) ?>
+            </button>
+        </form>
+    <?php endif; ?>
 </div>

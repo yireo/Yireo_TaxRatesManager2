@@ -5,6 +5,7 @@ namespace Yireo\TaxRatesManager2\Plugin\Rate\Toolbar;
 
 use Magento\Backend\Block\Widget\Button\ButtonList;
 use Magento\Backend\Block\Widget\Button\ToolbarInterface;
+use Magento\Framework\Escaper;
 use Magento\Framework\UrlInterface;
 use Magento\Tax\Block\Adminhtml\Rate\Toolbar\Add as Subject;
 
@@ -28,11 +29,13 @@ class AddPlugin
      * @param UrlInterface $url
      * @param ButtonList $buttonList
      * @param ToolbarInterface $toolbar
+     * @param Escaper $escaper
      */
     public function __construct(
         UrlInterface $url,
         ButtonList $buttonList,
-        ToolbarInterface $toolbar
+        ToolbarInterface $toolbar,
+        private readonly Escaper $escaper
     ) {
         $this->url = $url;
         $this->buttonList = $buttonList;
@@ -46,7 +49,11 @@ class AddPlugin
             'clean',
             [
                 'label' => __('Clean Existing Rates'),
-                'onclick' => 'window.location.href=\'' . $url . '\'',
+                'onclick' => sprintf(
+                    "deleteConfirm('%s', '%s', {data: {}})",
+                    $this->escaper->escapeJs((string)__('Are you sure you want to delete all existing tax rates?')),
+                    $this->escaper->escapeJs($url)
+                ),
                 'class' => 'close'
             ],
             0,
