@@ -19,8 +19,10 @@ use Magento\Framework\App\Cache;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Psr\Http\Message\UriInterface;
+use Psr\Log\LoggerInterface;
 use Yireo\TaxRatesManager2\Config\Config;
 use Yireo\TaxRatesManager2\Rate\Rate;
+use Yireo\TaxRatesManager2\Rate\RateValidator;
 use Yireo\TaxRatesManager2\Util\UrlValidator;
 
 /**
@@ -67,13 +69,17 @@ class OnlineRates
      * @param Client $client
      * @param Json $jsonSerializer
      * @param UrlValidator $urlValidator
+     * @param RateValidator $rateValidator
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Config $config,
         Cache $cache,
         Client $client,
         Json $jsonSerializer,
-        private readonly UrlValidator $urlValidator
+        private readonly UrlValidator $urlValidator,
+        private readonly RateValidator $rateValidator,
+        private readonly LoggerInterface $logger
     ) {
         $this->config = $config;
         $this->cache = $cache;
@@ -89,14 +95,23 @@ class OnlineRates
         $rates = [];
         $onlineRates = $this->getRatesFromCacheOrOnline();
 
-        foreach ($onlineRates as $onlineRate) {
-            $rates[] = new Rate(
+        foreach ($onlineRates as $index => $onlineRate) {
+            $rate = new Rate(
                 0,
-                (string)$onlineRate['code'],
-                (string)$onlineRate['country'],
-                (string)$onlineRate['zip'],
-                (float)$onlineRate['rate']
+                (string)($onlineRate['code'] ?? ''),
+                (string)($onlineRate['country'] ?? ''),
+                (string)($onlineRate['zip'] ?? ''),
+                (float)($onlineRate['rate'] ?? 0)
             );
+
+            if (!$this->rateValidator->isValid($rate)) {
+                $this->logger->warning(
+                    sprintf('Yireo_TaxRatesManager2: Skipping invalid tax rate in feed row %d', $index + 1)
+                );
+                continue;
+            }
+
+            $rates[] = $rate;
         }
 
         return $rates;
