@@ -15,6 +15,7 @@ namespace Yireo\TaxRatesManager2\Model\System\Config\Source;
 use GuzzleHttp\Client;
 use Magento\Framework\Option\ArrayInterface;
 use Magento\Framework\Serialize\Serializer\Json;
+use Throwable;
 use Yireo\TaxRatesManager2\Config\Config;
 
 /**
@@ -67,10 +68,26 @@ class Feed implements ArrayInterface
      */
     private function getSources(): array
     {
-        $response = $this->client->get(Config::PREFIX . '/feeds.json');
-        $contents = (string)$response->getBody();
-        $data = $this->jsonSerializer->unserialize($contents);
+        try {
+            $response = $this->client->get(Config::PREFIX . 'feeds.json', [
+                'timeout' => 10,
+                'connect_timeout' => 5,
+                'allow_redirects' => false,
+            ]);
+            $data = $this->jsonSerializer->unserialize((string)$response->getBody());
+        } catch (Throwable $exception) {
+            return [Config::DEFAULT_FEED];
+        }
 
-        return $data['feeds'];
+        if (!is_array($data) || !isset($data['feeds']) || !is_array($data['feeds'])) {
+            return [Config::DEFAULT_FEED];
+        }
+
+        $sources = array_filter(
+            $data['feeds'],
+            fn ($source) => is_string($source) && preg_match(Config::FEED_SOURCE_PATTERN, $source) === 1
+        );
+
+        return !empty($sources) ? array_values($sources) : [Config::DEFAULT_FEED];
     }
 }

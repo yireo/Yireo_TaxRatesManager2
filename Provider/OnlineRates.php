@@ -30,6 +30,9 @@ use Yireo\TaxRatesManager2\Util\UrlValidator;
  */
 class OnlineRates
 {
+    private const CACHE_TAG = 'TAXRATESMANAGER';
+    private const CACHE_LIFETIME = 86400;
+
     /**
      * @var Config
      */
@@ -222,8 +225,12 @@ class OnlineRates
      */
     private function saveToCache($data)
     {
-        $cacheTags = [];
-        $this->cache->save($this->jsonSerializer->serialize($data), $this->getCacheId(), $cacheTags);
+        $this->cache->save(
+            $this->jsonSerializer->serialize($data),
+            $this->getCacheId(),
+            [self::CACHE_TAG],
+            self::CACHE_LIFETIME
+        );
     }
 
     /**

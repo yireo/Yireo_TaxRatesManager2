@@ -102,8 +102,11 @@ class CheckRunner
     {
         ob_start();
 
-        $this->check->execute();
-        $contents = ob_get_clean();
+        try {
+            $this->check->execute();
+        } finally {
+            $contents = (string)ob_get_clean();
+        }
 
         if (!$contents) {
             return false;
@@ -143,12 +146,13 @@ class CheckRunner
             ->setFrom('general')
             ->getTransport();
 
+        $this->inlineTranslation->suspend();
         try {
-            $this->inlineTranslation->suspend();
             $transport->sendMessage();
-            $this->inlineTranslation->resume();
         } catch (Exception $e) {
             $this->genericLogger->critical($e->getMessage());
+        } finally {
+            $this->inlineTranslation->resume();
         }
     }
 }

@@ -42,6 +42,7 @@
                 <field id="email" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="text">
                     <label>Email address</label>
                     <comment><![CDATA[Email to send output of cron to, if different from default Store Owner]]></comment>
+                    <backend_model>Yireo\TaxRatesManager2\Config\Backend\Email</backend_model>
                 </field>
                 <field id="feed_source" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
                     <label>Feed source</label>

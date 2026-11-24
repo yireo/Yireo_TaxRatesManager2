@@ -59,8 +59,8 @@ class ConfigTest extends AbstractTestCase
         $this->assertSame('alt_foobar', $this->getTarget()->getFeedUrl());
 
         $this->setConfigValue('alternative_feed_source', '');
-        $this->setConfigValue('feed_source', 'foobar');
-        $this->assertSame(Target::PREFIX.'foobar', $this->getTarget()->getFeedUrl());
+        $this->setConfigValue('feed_source', 'foobar.csv');
+        $this->assertSame(Target::PREFIX.'foobar.csv', $this->getTarget()->getFeedUrl());
     }
 
     public function testUpdateNameFromExistingItems()

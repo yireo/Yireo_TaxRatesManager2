@@ -21,6 +21,8 @@ use Yireo\TaxRatesManager2\Util\CommandLine;
 class Config
 {
     const PREFIX = 'https://raw.githubusercontent.com/yireo/Magento_EU_Tax_Rates/master/';
+    const DEFAULT_FEED = 'tax_rates_eu.csv';
+    const FEED_SOURCE_PATTERN = '/^[A-Za-z0-9_-]+\.csv$/D';
 
     /**
      * @var ScopeConfigInterface
@@ -89,11 +91,11 @@ class Config
         }
 
         $feed = (string)$this->getModuleConfig('feed_source');
-        if (!empty($feed)) {
+        if (preg_match(self::FEED_SOURCE_PATTERN, $feed) === 1) {
             return self::PREFIX . $feed;
         }
 
-        return self::PREFIX . 'tax_rates_eu.csv';
+        return self::PREFIX . self::DEFAULT_FEED;
     }
 
     /**
