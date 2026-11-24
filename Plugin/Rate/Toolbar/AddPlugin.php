@@ -5,6 +5,7 @@ namespace Yireo\TaxRatesManager2\Plugin\Rate\Toolbar;
 
 use Magento\Backend\Block\Widget\Button\ButtonList;
 use Magento\Backend\Block\Widget\Button\ToolbarInterface;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\UrlInterface;
 use Magento\Tax\Block\Adminhtml\Rate\Toolbar\Add as Subject;
@@ -30,12 +31,14 @@ class AddPlugin
      * @param ButtonList $buttonList
      * @param ToolbarInterface $toolbar
      * @param Escaper $escaper
+     * @param AuthorizationInterface $authorization
      */
     public function __construct(
         UrlInterface $url,
         ButtonList $buttonList,
         ToolbarInterface $toolbar,
-        private readonly Escaper $escaper
+        private readonly Escaper $escaper,
+        private readonly AuthorizationInterface $authorization
     ) {
         $this->url = $url;
         $this->buttonList = $buttonList;
@@ -44,6 +47,11 @@ class AddPlugin
 
     public function beforeSetLayout(Subject $subject)
     {
+        if (!$this->authorization->isAllowed('Magento_Tax::manage_tax')
+            || !$this->authorization->isAllowed('Yireo_TaxRatesManager2::clean')) {
+            return;
+        }
+
         $url = $this->url->getUrl('taxratesmanager/index/clean');
         $this->buttonList->add(
             'clean',

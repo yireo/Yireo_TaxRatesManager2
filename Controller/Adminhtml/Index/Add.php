@@ -137,4 +137,13 @@ class Add extends Action implements HttpPostActionInterface
 
         throw new NotFoundException(__('Unable to find rate'));
     }
+
+    /**
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magento_Tax::manage_tax')
+            && $this->_authorization->isAllowed(static::ADMIN_RESOURCE);
+    }
 }

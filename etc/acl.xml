@@ -13,8 +13,12 @@
 	<acl>
 		<resources>
 			<resource id="Magento_Backend::admin">
-				<resource id="Yireo_TaxRatesManager2::index" title="TaxRatesManager2" translate="title" sortOrder="30" />
 				<resource id="Magento_Backend::stores">
+					<resource id="Magento_Tax::manage_tax">
+						<resource id="Yireo_TaxRatesManager2::index" title="TaxRatesManager2" translate="title" sortOrder="30">
+							<resource id="Yireo_TaxRatesManager2::clean" title="Clean Existing Rates" translate="title" sortOrder="10" />
+						</resource>
+					</resource>
 					<resource id="Magento_Backend::stores_settings">
 						<resource id="Magento_Config::config">
 							<resource id="Yireo_TaxRatesManager2::config_yireo_taxratesmanager2" title="taxratesmanager"/>

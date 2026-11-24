@@ -30,7 +30,7 @@ use Yireo\TaxRatesManager2\Provider\StoredRates as StoredRatesProvider;
  */
 class Clean extends Action implements HttpPostActionInterface
 {
-    const ADMIN_RESOURCE = 'Yireo_TaxRatesManager2::index';
+    const ADMIN_RESOURCE = 'Yireo_TaxRatesManager2::clean';
 
     /**
      * @var StoredRatesProvider
@@ -84,5 +84,14 @@ class Clean extends Action implements HttpPostActionInterface
                 continue;
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magento_Tax::manage_tax')
+            && $this->_authorization->isAllowed(static::ADMIN_RESOURCE);
     }
 }
