@@ -12,9 +12,12 @@ declare(strict_types=1);
 
 namespace Yireo\TaxRatesManager2\Observer\Backend\Controller;
 
-use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Message\ManagerInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
 use Yireo\TaxRatesManager2\Check\Check;
 
 /**
@@ -28,18 +31,22 @@ class ActionPredispatch implements ObserverInterface
      */
     private $check;
     /**
-     * @var RequestInterface
+     * @var HttpRequest
      */
     private $request;
 
     /**
      * ActionPredispatch constructor.
      * @param Check $check
-     * @param RequestInterface $request
+     * @param HttpRequest $request
+     * @param ManagerInterface $messageManager
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Check $check,
-        RequestInterface $request
+        HttpRequest $request,
+        private readonly ManagerInterface $messageManager,
+        private readonly LoggerInterface $logger
     ) {
         $this->check = $check;
         $this->request = $request;
@@ -54,17 +61,16 @@ class ActionPredispatch implements ObserverInterface
     public function execute(
         Observer $observer
     ) {
-        $moduleName = $this->request->getModuleName();
-        if ($moduleName !== 'tax') {
+        if (!$this->request->isGet() || $this->request->isAjax()) {
             return $this;
         }
 
-        $controllerName = $this->request->getControllerName();
-        if ($controllerName !== 'rate') {
-            return $this;
+        try {
+            $this->check->execute();
+        } catch (Throwable $exception) {
+            $this->logger->error('Yireo_TaxRatesManager2: ' . $exception->getMessage(), ['exception' => $exception]);
+            $this->messageManager->addErrorMessage(__('Unable to check the tax rates. See the logs for details.'));
         }
-
-        $this->check->execute();
 
         return $this;
     }
