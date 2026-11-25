@@ -18,18 +18,30 @@
     "skip_magento_versions": [],
     "skip_css_utils": false,
     "modules": [
+        "Magento_AdminNotification",
         "Magento_Backend",
         "Magento_Catalog",
+        "Magento_CatalogInventory",
         "Magento_Checkout",
+        "Magento_Cms",
         "Magento_Config",
         "Magento_Cron",
+        "Magento_Csp",
         "Magento_Customer",
         "Magento_Directory",
         "Magento_Eav",
+        "Magento_Indexer",
+        "Magento_MediaGalleryUiApi",
+        "Magento_Payment",
+        "Magento_Quote",
+        "Magento_Rule",
+        "Magento_Sales",
+        "Magento_SalesSequence",
         "Magento_Store",
         "Magento_Tax",
         "Magento_Theme",
-        "Magento_User"
+        "Magento_User",
+        "Magento_Variable"
     ],
     "components": [],
     "config": [
@@ -77,11 +89,16 @@
             "path": "taxratesmanager/settings/cache",
             "label": "Settings > Enable cache",
             "description": ""
+        },
+        {
+            "path": "taxratesmanager/settings/cron_schedule",
+            "label": "Settings > Cron schedule",
+            "description": ""
         }
     ],
     "tests": {
-        "unit": 3,
-        "integration": 3,
+        "unit": 19,
+        "integration": 33,
         "functional": 0
     },
     "phpcs_severity": "10",
