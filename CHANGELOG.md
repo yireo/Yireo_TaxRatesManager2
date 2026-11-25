@@ -5,8 +5,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.0.0] - 25 November 2026
 ### Changed
+- BREAKING: Module permissions are now nested under Stores > Taxes (Magento_Tax::manage_tax) and cleaning all rates needs a new separate permission; admin roles must be re-granted the module permissions
+- BREAKING: The Add, Fix and Clean actions only accept POST requests and the Clean button asks for confirmation; `LoggerInterface::warning()` takes an optional `$action` array instead of HTML in the message
 - Make the cron schedule configurable and run the check daily by default instead of every 3 minutes
+- Only run the tax rate check when opening the tax rate grid, instead of on every tax rate admin request
+- Require Guzzle 7.4.5 or newer, as Guzzle 6 is end-of-life and affected by several CVEs
+- Add PHP 8.5 support
+
+### Removed
+- Drop PHP 8.1 support
+
+### Fixed
+- Stored XSS in admin warning messages via tax rate codes and feed values
+- SSRF via the alternative feed URL: only https URLs to public hosts are accepted, with timeouts and a redirect limit
+- Invalid rows from the online feed could be saved as tax rates; they are now validated, skipped and logged
+- An invalid cron schedule expression stopped schedule generation for the whole default cron group; it is now rejected on save
+- Error pages in the Add and Fix actions on invalid input or feed failures; they now redirect back with an error message
+- Configuration page breaking when the feed list could not be fetched, plus validation of the feed source and cron email and expiry of cached feed data
+- The "No online rates found" warning never showed for an empty feed
 
 ## [1.3.1] - 29 April 2026
 ### Fixed
