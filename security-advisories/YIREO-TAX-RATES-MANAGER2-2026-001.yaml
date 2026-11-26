@@ -1,0 +1,35 @@
+schema_version: "1.6.0"
+id: YIREO-TAX-RATES-MANAGER2-2026-001
+published: "2026-11-25T00:00:00Z"
+modified: "2026-11-26T00:00:00Z"
+aliases: []
+summary: Admin users without tax management permission can add, change and delete tax rates
+details: >
+  The ACL resource Yireo_TaxRatesManager2::index was declared at the top level of the admin ACL tree
+  instead of under Magento_Tax::manage_tax. An admin role that was granted this resource but not the
+  Magento tax management permission could still add and fix tax rates and delete all tax rates
+  through the Add, Fix and Clean actions of this module. Version 2.0.0 nests the resource under
+  Magento_Tax::manage_tax, requires both permissions in the controllers and requires the new
+  Yireo_TaxRatesManager2::clean permission for deleting all tax rates. Admin roles need to be
+  re-granted the module permissions under Stores > Taxes.
+  Version 1.3.2 backports the fix without changing the ACL tree: the Add, Fix and Clean actions
+  require both Magento_Tax::manage_tax and Yireo_TaxRatesManager2::index, so admin roles do not
+  need to be re-granted.
+severity:
+  - type: CVSS_V3
+    score: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:L"
+affected:
+  - package:
+      ecosystem: Packagist
+      name: yireo/magento2-taxratesmanager2
+    ranges:
+      - type: ECOSYSTEM
+        events:
+          - introduced: "0"
+          - fixed: "1.3.2"
+references:
+  - type: PACKAGE
+    url: https://github.com/yireo/Yireo_TaxRatesManager2
+database_specific:
+  cwe_ids:
+    - CWE-285

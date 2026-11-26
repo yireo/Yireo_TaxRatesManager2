@@ -1,0 +1,30 @@
+schema_version: "1.6.0"
+id: YIREO-TAX-RATES-MANAGER2-2026-003
+published: "2026-11-25T00:00:00Z"
+modified: "2026-11-26T00:00:00Z"
+aliases: []
+summary: Cross-site request forgery on the Add, Fix and Clean tax rate actions
+details: >
+  The Add, Fix and Clean admin actions accepted GET requests and did not require a form key. When
+  secret keys in admin URLs were disabled, a crafted link opened by a logged-in admin user could add
+  or change tax rates or delete all tax rates. Version 2.0.0 only accepts POST requests with a valid
+  form key for these actions and asks for confirmation before deleting all tax rates.
+  The fix has been backported to version 1.3.2 for installations that cannot upgrade to 2.0.0.
+severity:
+  - type: CVSS_V3
+    score: "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:N"
+affected:
+  - package:
+      ecosystem: Packagist
+      name: yireo/magento2-taxratesmanager2
+    ranges:
+      - type: ECOSYSTEM
+        events:
+          - introduced: "0"
+          - fixed: "1.3.2"
+references:
+  - type: PACKAGE
+    url: https://github.com/yireo/Yireo_TaxRatesManager2
+database_specific:
+  cwe_ids:
+    - CWE-352
