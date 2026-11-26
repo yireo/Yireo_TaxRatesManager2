@@ -12,13 +12,14 @@ declare(strict_types=1);
 
 namespace Yireo\TaxRatesManager2\Logger;
 
+use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\ManagerInterface;
 use Yireo\TaxRatesManager2\Api\LoggerInterface;
 
 /**
  * Class Messages
  */
-class Messages implements LoggerInterface
+class Messages implements LoggerInterface, ActionLoggerInterface
 {
     /**
      * @var ManagerInterface
@@ -26,13 +27,21 @@ class Messages implements LoggerInterface
     private $messageManager;
 
     /**
+     * @var FormKey
+     */
+    private $formKey;
+
+    /**
      * Messages constructor.
      * @param ManagerInterface $messageManager
+     * @param FormKey $formKey
      */
     public function __construct(
-        ManagerInterface $messageManager
+        ManagerInterface $messageManager,
+        FormKey $formKey
     ) {
         $this->messageManager = $messageManager;
+        $this->formKey = $formKey;
     }
 
     /**
@@ -56,7 +65,24 @@ class Messages implements LoggerInterface
      */
     public function warning(string $msg)
     {
-        $this->messageManager->addComplexWarningMessage('htmlWarning', ['msg' => $msg]);
+        $this->warningWithAction($msg);
+    }
+
+    /**
+     * @param string $msg
+     * @param array $action
+     */
+    public function warningWithAction(string $msg, array $action = [])
+    {
+        $data = ['msg' => $msg];
+        if (!empty($action['url'])) {
+            $data['action_url'] = (string)$action['url'];
+            $data['action_label'] = (string)($action['label'] ?? $action['url']);
+            $data['action_params'] = (array)($action['params'] ?? []);
+            $data['form_key'] = $this->formKey->getFormKey();
+        }
+
+        $this->messageManager->addComplexWarningMessage('htmlWarning', $data);
     }
 
     /**

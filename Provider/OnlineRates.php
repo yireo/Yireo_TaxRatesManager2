@@ -13,11 +13,17 @@ declare(strict_types=1);
 namespace Yireo\TaxRatesManager2\Provider;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\TransferException;
 use InvalidArgumentException;
 use Magento\Framework\App\Cache;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
+use Psr\Http\Message\UriInterface;
+use Psr\Log\LoggerInterface;
 use Yireo\TaxRatesManager2\Config\Config;
 use Yireo\TaxRatesManager2\Rate\Rate;
+use Yireo\TaxRatesManager2\Rate\RateValidator;
+use Yireo\TaxRatesManager2\Util\UrlValidator;
 
 /**
  * Class OnlineRates
@@ -57,22 +63,46 @@ class OnlineRates
     private $jsonSerializer;
 
     /**
+     * @var UrlValidator
+     */
+    private $urlValidator;
+
+    /**
+     * @var RateValidator
+     */
+    private $rateValidator;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * OnlineRates constructor.
      * @param Config $config
      * @param Cache $cache
      * @param Client $client
      * @param Json $jsonSerializer
+     * @param UrlValidator $urlValidator
+     * @param RateValidator $rateValidator
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Config $config,
         Cache $cache,
         Client $client,
-        Json $jsonSerializer
+        Json $jsonSerializer,
+        UrlValidator $urlValidator,
+        RateValidator $rateValidator,
+        LoggerInterface $logger
     ) {
         $this->config = $config;
         $this->cache = $cache;
         $this->client = $client;
         $this->jsonSerializer = $jsonSerializer;
+        $this->urlValidator = $urlValidator;
+        $this->rateValidator = $rateValidator;
+        $this->logger = $logger;
     }
 
     /**
@@ -83,14 +113,23 @@ class OnlineRates
         $rates = [];
         $onlineRates = $this->getRatesFromCacheOrOnline();
 
-        foreach ($onlineRates as $onlineRate) {
-            $rates[] = new Rate(
+        foreach ($onlineRates as $index => $onlineRate) {
+            $rate = new Rate(
                 0,
-                (string)$onlineRate['code'],
-                (string)$onlineRate['country'],
-                (string)$onlineRate['zip'],
-                (float)$onlineRate['rate']
+                (string)($onlineRate['code'] ?? ''),
+                (string)($onlineRate['country'] ?? ''),
+                (string)($onlineRate['zip'] ?? ''),
+                (float)($onlineRate['rate'] ?? 0)
             );
+
+            if (!$this->rateValidator->isValid($rate)) {
+                $this->logger->warning(
+                    sprintf('Yireo_TaxRatesManager2: Skipping invalid tax rate in feed row %d', $index + 1)
+                );
+                continue;
+            }
+
+            $rates[] = $rate;
         }
 
         return $rates;
@@ -135,7 +174,17 @@ class OnlineRates
      */
     private function loadFromOnline(): array
     {
-        $response = $this->client->get($this->config->getFeedUrl());
+        $feedUrl = $this->config->getFeedUrl();
+        if (strpos($feedUrl, Config::PREFIX) !== 0) {
+            $this->urlValidator->validate($feedUrl);
+        }
+
+        try {
+            $response = $this->client->get($feedUrl, $this->getRequestOptions());
+        } catch (TransferException $exception) {
+            throw new LocalizedException(__('Unable to fetch the tax rates feed'), $exception);
+        }
+
         $contents = (string) $response->getBody();
         $rows = array_map(fn ($data) => str_getcsv($data, ',', '"', ''), explode("\n", $contents));
         $headerRow = array_shift($rows);
@@ -156,6 +205,25 @@ class OnlineRates
         }
 
         return $rates;
+    }
+
+    /**
+     * @return array
+     */
+    private function getRequestOptions(): array
+    {
+        return [
+            'timeout' => 10,
+            'connect_timeout' => 5,
+            'allow_redirects' => [
+                'max' => 3,
+                'protocols' => ['https'],
+                'strict' => true,
+                'on_redirect' => function ($request, $response, UriInterface $uri): void {
+                    $this->urlValidator->validate((string)$uri);
+                },
+            ],
+        ];
     }
 
     /**
@@ -183,14 +251,14 @@ class OnlineRates
     private function validateHeaderRow(array $headerRow): bool
     {
         if (count($headerRow) !== count($this->columns)) {
-            $msg = 'CSV header is of unexpected size: ' . var_export($headerRow, true);
+            $msg = sprintf('CSV header has %d columns instead of %d', count($headerRow), count($this->columns));
             throw new InvalidArgumentException($msg);
         }
 
         $i = 0;
         foreach ($this->columns as $columnCode => $columnName) {
             if ($headerRow[$i] != $columnName) {
-                $msg = sprintf('CSV header contains unexpected value "%s" at position %d', $headerRow[$i], $i);
+                $msg = sprintf('CSV header contains an unexpected value at position %d', $i);
                 throw new InvalidArgumentException($msg);
             }
             $i++;

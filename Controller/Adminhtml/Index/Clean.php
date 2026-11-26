@@ -14,6 +14,7 @@ namespace Yireo\TaxRatesManager2\Controller\Adminhtml\Index;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
@@ -27,7 +28,7 @@ use Yireo\TaxRatesManager2\Provider\StoredRates as StoredRatesProvider;
  *
  * @package Yireo\TaxRatesManager2\Controller\Adminhtml\Index
  */
-class Clean extends Action
+class Clean extends Action implements HttpPostActionInterface
 {
     const ADMIN_RESOURCE = 'Yireo_TaxRatesManager2::index';
 
@@ -48,7 +49,7 @@ class Clean extends Action
     public function __construct(
         Context $context,
         RedirectFactory $resultRedirectFactory,
-        StoredRatesProvider $storedRatesProvider,
+        StoredRatesProvider $storedRatesProvider
     ) {
         parent::__construct($context);
         $this->resultRedirectFactory = $resultRedirectFactory;
@@ -83,5 +84,14 @@ class Clean extends Action
                 continue;
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magento_Tax::manage_tax')
+            && $this->_authorization->isAllowed(static::ADMIN_RESOURCE);
     }
 }

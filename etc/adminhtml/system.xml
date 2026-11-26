@@ -48,9 +48,10 @@
                     <comment><![CDATA[Source to load tax rates from. tax_rates_eu.csv by default.]]></comment>
                     <source_model>Yireo\TaxRatesManager2\Model\System\Config\Source\Feed</source_model>
                 </field>
-                <field id="alternative_feed_source" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="text">
+                <field id="alternative_feed_source" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label comment" type="text">
                     <label>Alternative feed source</label>
-                    <comment><![CDATA[A full URL to an alternative CSV feed]]></comment>
+                    <comment><![CDATA[A full https:// URL to an alternative CSV feed. Hosts resolving to private or reserved IP addresses are not allowed.]]></comment>
+                    <backend_model>Yireo\TaxRatesManager2\Config\Backend\FeedUrl</backend_model>
                 </field>
                 <field id="update_name" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="1" translate="label" type="select">
                     <label>Update Tax Rate name</label>

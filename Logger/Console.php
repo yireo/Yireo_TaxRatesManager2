@@ -18,7 +18,7 @@ use Yireo\TaxRatesManager2\Api\LoggerInterface;
 /**
  * Class Console
  */
-class Console implements LoggerInterface
+class Console implements LoggerInterface, ActionLoggerInterface
 {
     /**
      * @param string $msg
@@ -42,6 +42,15 @@ class Console implements LoggerInterface
     public function warning(string $msg)
     {
         echo "WARNING: " . $msg . "\n";
+    }
+
+    /**
+     * @param string $msg
+     * @param array $action
+     */
+    public function warningWithAction(string $msg, array $action = [])
+    {
+        $this->warning($msg);
     }
 
     /**

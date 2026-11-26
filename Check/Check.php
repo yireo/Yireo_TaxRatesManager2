@@ -18,6 +18,7 @@ use Magento\Framework\UrlInterface;
 use Yireo\TaxRatesManager2\Config\Config;
 use Yireo\TaxRatesManager2\Util\Comparer;
 use Yireo\TaxRatesManager2\Api\LoggerInterface as Logger;
+use Yireo\TaxRatesManager2\Logger\ActionLoggerInterface;
 use Yireo\TaxRatesManager2\Provider\OnlineRates as OnlineRatesProvider;
 use Yireo\TaxRatesManager2\Provider\StoredRates as StoredRatesProvider;
 use Yireo\TaxRatesManager2\Rate\Rate;
@@ -258,19 +259,28 @@ class Check
             $msg .= ' Perhaps it should be removed or empty?';
         }
 
-        $msg .= ' (<a href="' . $this->getFixUrl($storedRate) . '">Fix this now</a>)';
+        $this->warning($msg, [
+            'url' => $this->url->getUrl('taxratesmanager/index/fix'),
+            'label' => (string)__('Fix this now'),
+            'params' => ['id' => $storedRate->getId()],
+        ]);
 
-        $this->logger->warning($msg);
         return false;
     }
 
     /**
-     * @param Rate $rate
-     * @return string
+     * @param string $msg
+     * @param array $action
+     * @return void
      */
-    private function getFixUrl(Rate $rate): string
+    private function warning(string $msg, array $action): void
     {
-        return $this->url->getUrl('taxratesmanager/index/fix', ['id' => $rate->getId()]);
+        if ($this->logger instanceof ActionLoggerInterface) {
+            $this->logger->warningWithAction($msg, $action);
+            return;
+        }
+
+        $this->logger->warning($msg);
     }
 
     /**
@@ -317,8 +327,14 @@ class Check
             $onlineRate->getCountryId()
         );
 
-        $msg .= ' (<a href="' . $this->getAddUrl($onlineRate) . '">Add</a>)';
-        $this->logger->warning($msg);
+        $this->warning($msg, [
+            'url' => $this->url->getUrl('taxratesmanager/index/add'),
+            'label' => (string)__('Add'),
+            'params' => [
+                'country' => $onlineRate->getCountryId(),
+                'percentage' => $onlineRate->getPercentage(),
+            ],
+        ]);
 
         if ($this->fixAutomatically || $this->config->fixAutomatically()) {
             $this->storedRatesProvider->saveRate($onlineRate);
@@ -332,22 +348,6 @@ class Check
         }
 
         return true;
-    }
-
-    /**
-     * Get the URL for adding a new rate
-     *
-     * @param Rate $rate
-     * @return string
-     */
-    private function getAddUrl(Rate $rate): string
-    {
-        $data = [
-            'country' => $rate->getCountryId(),
-            'percentage' => $rate->getPercentage(),
-        ];
-
-        return $this->url->getUrl('taxratesmanager/index/add', $data);
     }
 
     /**
