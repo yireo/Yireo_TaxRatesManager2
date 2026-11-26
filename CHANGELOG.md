@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 26 November 2026
+### Fixed
+- Security: Add, Fix and Clean actions now also require the Magento_Tax::manage_tax permission (YIREO-TAX-RATES-MANAGER2-2026-001)
+- Security: Stored XSS in admin warning messages via tax rate codes and feed values; invalid feed rows are skipped and logged (YIREO-TAX-RATES-MANAGER2-2026-002)
+- Security: CSRF on the Add, Fix and Clean actions; they now only accept POST requests with a form key and Clean asks for confirmation (YIREO-TAX-RATES-MANAGER2-2026-003)
+- Security: SSRF via the alternative feed URL; only https URLs to public hosts are accepted, with timeouts and a redirect limit (YIREO-TAX-RATES-MANAGER2-2026-004)
+
 ## [1.3.1] - 29 April 2026
 ### Fixed
 - Show error in backend when clean task gives exception
