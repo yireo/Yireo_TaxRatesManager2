@@ -1,7 +1,7 @@
 schema_version: "1.6.0"
 id: YIREO-TAX-RATES-MANAGER2-2026-004
 published: "2026-11-25T00:00:00Z"
-modified: "2026-11-25T00:00:00Z"
+modified: "2026-11-26T00:00:00Z"
 aliases: []
 summary: Server-side request forgery via the alternative feed URL
 details: >
@@ -11,6 +11,7 @@ details: >
   internal resources and read parts of the response. Version 2.0.0 only accepts https URLs that do
   not resolve to private or reserved IP ranges, checks this on save, before each request and on every
   redirect, uses timeouts and a redirect limit, and no longer echoes remote content in errors.
+  The fix has been backported to version 1.3.2 for installations that cannot upgrade to 2.0.0.
 severity:
   - type: CVSS_V3
     score: "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:L/I:N/A:N"
@@ -22,7 +23,7 @@ affected:
       - type: ECOSYSTEM
         events:
           - introduced: "0"
-          - fixed: "2.0.0"
+          - fixed: "1.3.2"
 references:
   - type: PACKAGE
     url: https://github.com/yireo/Yireo_TaxRatesManager2

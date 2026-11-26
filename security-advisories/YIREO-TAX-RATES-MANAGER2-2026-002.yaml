@@ -1,7 +1,7 @@
 schema_version: "1.6.0"
 id: YIREO-TAX-RATES-MANAGER2-2026-002
 published: "2026-11-25T00:00:00Z"
-modified: "2026-11-25T00:00:00Z"
+modified: "2026-11-26T00:00:00Z"
 aliases: []
 summary: Stored XSS in admin warning messages via tax rate codes and feed values
 details: >
@@ -10,6 +10,7 @@ details: >
   containing HTML or JavaScript was executed in the browser of an admin user viewing the tax rate
   grid. Version 2.0.0 renders the messages as escaped plain text and validates rows from the online
   feed before using them.
+  The fix has been backported to version 1.3.2 for installations that cannot upgrade to 2.0.0.
 severity:
   - type: CVSS_V3
     score: "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:L/I:L/A:N"
@@ -21,7 +22,7 @@ affected:
       - type: ECOSYSTEM
         events:
           - introduced: "0"
-          - fixed: "2.0.0"
+          - fixed: "1.3.2"
 references:
   - type: PACKAGE
     url: https://github.com/yireo/Yireo_TaxRatesManager2
